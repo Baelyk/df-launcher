@@ -17,9 +17,11 @@ const electronLog = require("electron-log")
 const path = require('path')
 const url = require('url')
 
-const pathToConfig = fs.find(path.join(__dirname, "assets", "config"), {
-    matching: "config.json"
-})
+// const pathToConfig = fs.find(path.join(__dirname, "assets", "config"), {
+//     matching: "config.json"
+// })
+
+const pathToConfig = path.join(__dirname, "assets", "config", "config.json")
 const config = require(pathToConfig)
 
 // module settings that should be set now --------------------------------------
@@ -335,23 +337,23 @@ app.restart = function () {
 // App functions
 
 function updateDataContents() {
-    let contents = fs.read(path.join(pathToData, contents.json), "json")
+    let contents = fs.read(path.join(pathToData, "contents.json"), "json")
     log.verbose(contents)
     if(contents === undefined) {
         prepData()
-        contents = fs.read(path.join(pathToData, contents.json), "json")
+        contents = fs.read(path.join(pathToData, "contents.json"), "json")
     }
 
-    contents.config = fs.find(path.join(pathToData, config), {
+    contents.config = fs.find(path.join(pathToData, "config"), {
         matching: "[^.]*\.tar\.gz"
     })
-    contents.fonts = fs.find(path.join(pathToData, fonts), {
+    contents.fonts = fs.find(path.join(pathToData, "fonts"), {
         matching: "[^.]*\.ttf"
     })
-    contents.tilesets = fs.find(path.join(pathToData, tilesets), {
+    contents.tilesets = fs.find(path.join(pathToData, "tilesets"), {
         matching: "[^.]+(*.png|*.bmp)"
     })
-    contents.saves = fs.find(path.join(pathToData, saves), {
+    contents.saves = fs.find(path.join(pathToData, "saves"), {
         matching: "[^.]*\.tar\.gz"
     })
 
@@ -369,7 +371,7 @@ function updateDataContents() {
     })
     log.verbose(contents)
 
-    fs.write(path.join(pathToData, contents.json), contents, {
+    fs.write(path.join(pathToData, "contents.json"), contents, {
         jsonIndent: 4
     })
     log.debug("Updated data/contents.json")
@@ -448,7 +450,7 @@ function prepData () {
     // Move the DF config helper files
     fs.copy(path.join(__dirname, "assets", "data", "config.json"), `${config.settings.data.dir.path}/config.json`)
     fs.copy(path.join(__dirname, "assets", "data", "d_config.json"), `${config.settings.data.dir.path}/d_config.json`)
-    fs.copy(path.join(__dirname, "assets", "data", "dfconfigsupplement.json"), `${config.settings.data.dir.path}/dconfigsupplement.txt`)
+    fs.copy(path.join(__dirname, "assets", "data", "dfconfigsupplement.txt"), `${config.settings.data.dir.path}/dconfigsupplement.txt`)
 
     // Move default DF font and tilesets to the data folder
     fs.find(path.join(config.settings.df.dir.path, "data", "art"), {
@@ -473,7 +475,7 @@ function launchDF() {
     log.debug("launching df")
     // dfPath = pathToDF.replace(/ /gi, "\\ ")
     // log.debug(dfPath)
-    exec(`"${path.join(pathToDF, "df")} ; exit;"`, function(error, out, err) {
+    exec(`"${path.join(pathToDF, "df")}" ; exit;`, function(error, out, err) {
         if (error) {
             log.error(error)
         } else {
@@ -507,7 +509,7 @@ function backupSaves() {
     saveLocation.on("open", function() {
         archive.pipe(saveLocation)
         archive
-            .directory(path.join(pathToDF, "data", save))
+            .directory(path.join(pathToDF, "data", "save"))
             .finalize()
     })
     log.debug("Saves backed up.")
