@@ -106,8 +106,8 @@
                 }
             ]
         },
-        "usedFont": "/Users/Baelyk/Documents/Programming/Electron/df-launcher/data/fonts/Deja Vu Sans.ttf",
-        "usedTileset": "/Users/Baelyk/Documents/Programming/Electron/df-launcher/data/tilesets/curses_800x600.png"
+        "usedFont": "",
+        "usedTileset": ""
     },
     "basicSettings": {
         "init": [
@@ -134,16 +134,16 @@
         },
         "data": {
             "dir": {
-                "path": "/Users/baelyk/Programming/df-launcher/data",
-                "name": "data"
+                "path": "",
+                "name": ""
             }
         },
         "df": {
             "dir": {
-                "path": "/Users/baelyk/Programming/df-launcher/df_osx",
-                "name": "df_osx"
+                "path": "",
+                "name": ""
             }
         }
     },
-    "startups": 1
+    "startups": 0
 }
