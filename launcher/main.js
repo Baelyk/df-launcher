@@ -17,7 +17,9 @@ const electronLog = require("electron-log")
 const path = require('path')
 const url = require('url')
 
-const pathToConfig = `${__dirname}/assets/config/config.json`
+const pathToConfig = fs.find(path.join(__dirname, "assets", "config"), {
+    matching: "config.json"
+})
 const config = require(pathToConfig)
 
 // module settings that should be set now --------------------------------------
@@ -333,41 +335,41 @@ app.restart = function () {
 // App functions
 
 function updateDataContents() {
-    let contents = fs.read(`${pathToData}/contents.json`, "json")
+    let contents = fs.read(path.join(pathToData, contents.json), "json")
     log.verbose(contents)
     if(contents === undefined) {
         prepData()
-        contents = fs.read(`${pathToData}/contents.json`, "json")
+        contents = fs.read(path.join(pathToData, contents.json), "json")
     }
 
-    contents.config = fs.find(`${pathToData}/config`, {
+    contents.config = fs.find(path.join(pathToData, config), {
         matching: "[^.]*\.tar\.gz"
     })
-    contents.fonts = fs.find(`${pathToData}/fonts`, {
+    contents.fonts = fs.find(path.join(pathToData, fonts), {
         matching: "[^.]*\.ttf"
     })
-    contents.tilesets = fs.find(`${pathToData}/tilesets`, {
+    contents.tilesets = fs.find(path.join(pathToData, tilesets), {
         matching: "[^.]+(*.png|*.bmp)"
     })
-    contents.saves = fs.find(`${pathToData}/saves`, {
+    contents.saves = fs.find(path.join(pathToData, saves), {
         matching: "[^.]*\.tar\.gz"
     })
 
     contents.config.forEach(function(file, index, array) {
-        array[index] = pathToData + file.substr(file.indexOf("data/") + 4) // +4 to remove the "data" from the string
+        array[index] = path.resolve(file) // pathToData + file.substr(file.indexOf("data/") + 4) // +4 to remove the "data" from the string
     })
     contents.fonts.forEach(function(file, index, array) {
-        array[index] = pathToData + file.substr(file.indexOf("data/") + 4) // +4 to remove the "data" from the string
+        array[index] = path.resolve(file) // pathToData + file.substr(file.indexOf("data/") + 4) // +4 to remove the "data" from the string
     })
     contents.tilesets.forEach(function(file, index, array) {
-        array[index] = pathToData + file.substr(file.indexOf("data/") + 4) // +4 to remove the "data" from the string
+        array[index] = path.resolve(file) // pathToData + file.substr(file.indexOf("data/") + 4) // +4 to remove the "data" from the string
     })
     contents.saves.forEach(function(file, index, array) {
-        array[index] = pathToData + file.substr(file.indexOf("data/") + 4) // +4 to remove the "data" from the string
+        array[index] = path.resolve(file) // pathToData + file.substr(file.indexOf("data/") + 4) // +4 to remove the "data" from the string
     })
     log.verbose(contents)
 
-    fs.write(`${pathToData}/contents.json`, contents, {
+    fs.write(path.join(pathToData, contents.json), contents, {
         jsonIndent: 4
     })
     log.debug("Updated data/contents.json")
@@ -384,7 +386,7 @@ function selectDirectory (e, directory) { // directory: true for data, false for
         }, function (dir) {
             if(dir) {
                 dir = dir[0]
-                dirName = dir.substr(dir.lastIndexOf("/") + 1)
+                dirName = path.basename(dir)
                 log.verbose(dir)
                 log.verbose(dirName)
                 e.sender.send("dir-selected", directory, dir, dirName)
@@ -397,7 +399,7 @@ function selectDirectory (e, directory) { // directory: true for data, false for
         }, function (dir) {
             if(dir) {
                 dir = dir[0]
-                dirName = dir.substr(dir.lastIndexOf("/") + 1)
+                dirName = path.basename(dir)
                 log.verbose(dir)
                 log.verbose(dirName)
                 e.sender.send("dir-selected", directory, dir, dirName)
@@ -434,7 +436,7 @@ function startup (e, data, df) {
 }
 
 function prepData () {
-    fs.write(`${config.settings.data.dir.path}/contents.json`, { // add blank contents.json
+    fs.write(path.join(config.settings.data.dir.path, "contents.json"), { // add blank contents.json
         config: "",
         fonts: "",
         tilesets: "",
@@ -444,34 +446,34 @@ function prepData () {
     })
 
     // Move the DF config helper files
-    fs.copy(`${__dirname}/assets/data/config.json`, `${config.settings.data.dir.path}/config.json`)
-    fs.copy(`${__dirname}/assets/data/d_config.json`, `${config.settings.data.dir.path}/d_config.json`)
-    fs.copy(`${__dirname}/assets/data/dconfigsupplement.txt`, `${config.settings.data.dir.path}/dconfigsupplement.txt`)
+    fs.copy(path.join(__dirname, "assets", "data", "config.json"), `${config.settings.data.dir.path}/config.json`)
+    fs.copy(path.join(__dirname, "assets", "data", "d_config.json"), `${config.settings.data.dir.path}/d_config.json`)
+    fs.copy(path.join(__dirname, "assets", "data", "dfconfigsupplement.json"), `${config.settings.data.dir.path}/dconfigsupplement.txt`)
 
     // Move default DF font and tilesets to the data folder
-    fs.find(`${config.settings.df.dir.path}/data/art`, {
+    fs.find(path.join(config.settings.df.dir.path, "data", "art"), {
         matching: "[^.]*\.ttf"
     }).forEach(function (font) {
-        fs.copy(font, `${config.settings.data.dir.path}/fonts/${path.basename(font)}`)
+        fs.copy(font, path.join(config.settings.data.dir.path, "fonts", path.basename(font)))
     })
-    fs.find(`${config.settings.df.dir.path}/data/art`, {
+    fs.find(path.join(config.settings.df.dir.path, "data", "art"), {
         matching: "[^.]@(*.png|*.bmp)"
     }).forEach(function (tileset) {
-        if (tileset.indexOf("mouse") === -1) fs.copy(tileset, `${config.settings.data.dir.path}/tilesets/${path.basename(tileset)}`)
+        if (tileset.indexOf("mouse") === -1) fs.copy(tileset, path.join(config.settings.data.dir.path, "tilesets", path.basename(tileset)))
     })
-    const defaultTileset = fs.find(`${config.settings.df.dir.path}/data/art`, {
+    const defaultTileset = fs.find(path.join(config.settings.df.dir.path, "data", "art"), {
         matching: "curses_800x600.png"
     })[0]
-    fs.copy(defaultTileset, `${config.settings.df.dir.path}/data/art/tileset.png`)
+    fs.copy(defaultTileset, path.join(config.settings.data.dir.path, "tilesets", "tileset.png"))
 }
 
 // Launcher function (index.js)
 
 function launchDF() {
     log.debug("launching df")
-    dfPath = pathToDF.replace(/ /gi, "\\ ")
-    log.debug(dfPath)
-    exec(`${dfPath}/df ; exit;`, function(error, out, err) {
+    // dfPath = pathToDF.replace(/ /gi, "\\ ")
+    // log.debug(dfPath)
+    exec(`"${path.join(pathToDF, "df")} ; exit;"`, function(error, out, err) {
         if (error) {
             log.error(error)
         } else {
