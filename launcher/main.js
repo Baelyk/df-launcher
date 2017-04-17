@@ -486,7 +486,7 @@ function backupSaves() {
     log.debug("Backing up saves...")
     let date = Date.now()
     log.debug(date)
-    let saveLocation = fs.createWriteStream(`${pathToData}/saves/${date}.tar.gz`)
+    let saveLocation = fs.createWriteStream(path.join(pathToData, "saves", date + ".tar.gz"))
 
     let archive = archiver("tar", {
         gzip: true,
@@ -507,7 +507,7 @@ function backupSaves() {
     saveLocation.on("open", function() {
         archive.pipe(saveLocation)
         archive
-            .directory(`${pathToDF}/data/save`)
+            .directory(path.join(pathToDF, "data", save))
             .finalize()
     })
     log.debug("Saves backed up.")
@@ -519,7 +519,7 @@ function restoreSaves(selectedSave) {
     if(arguments.length > 0 && selectedSave !== "") {
         save = selectedSave
     } else {
-        let saves = fs.find(`${pathToData}/saves`, {
+        let saves = fs.find(path.join(pathToData, "saves"), {
             matching: "['1', '2', '3', '4', '5', '6', '7', '8', '9']*.tar.gz"
         })
         saves.forEach(function(e, i) {
@@ -531,7 +531,7 @@ function restoreSaves(selectedSave) {
 
     log.verbose(save)
 
-    decompress(`${pathToData}/saves/${save}.tar.gz`, "/", {
+    decompress(path.join(pathToData, "saves", save + ".tar.gz"), {
         plugins: [
             decompressTargz()
         ]
@@ -546,7 +546,7 @@ function backupConfigs() {
     log.debug(pathToDF)
     let date = Date.now()
     log.debug(date)
-    let configLocation = fs.createWriteStream(`${pathToData}/config/${date}.tar.gz`)
+    let configLocation = fs.createWriteStream(path.join(pathToData, "config", date + ".tar.gz"))
 
     let archive = archiver("tar", {
         gzip: true,
@@ -567,10 +567,10 @@ function backupConfigs() {
     configLocation.on("open", function() {
         archive.pipe(configLocation)
         archive
-            .file(`${pathToDF}/data/init/init.txt`)
-            .file(`${pathToDF}/data/init/d_init.txt`)
-            .file(`${pathToData}/config.json`)
-            .file(`${pathToData}/d_config.json`)
+            .file(path.join(pathToDF, "data", "init", "init.txt"))
+            .file(path.join(pathToDF, "data", "init", "d_init.txt"))
+            .file(path.join(pathToData, "config.json"))
+            .file(path.join(pathToData, "d_config.json"))
             .finalize()
     })
     log.debug("Configs backed up")
@@ -582,7 +582,7 @@ function restoreConfigs(selectedConfig) {
     if(arguments > 0 && selectedConfig !== "") {
         config = selectedConfig
     } else {
-        let configs = fs.find(`${pathToData}/config`, {
+        let configs = fs.find(path.join(pathToData, "config"), {
             matching: "['1', '2', '3', '4', '5', '6', '7', '8', '9']*.tar.gz"
         })
         configs.forEach(function(e, i) {
@@ -594,7 +594,7 @@ function restoreConfigs(selectedConfig) {
 
     log.verbose(config)
 
-    decompress(`${pathToData}/config/${config}.tar.gz`, "/", {
+    decompress(path.join(pathToData, "config", config + "tar.gz"), {
         plugins: [
             decompressTargz()
         ]
@@ -606,7 +606,7 @@ function restoreConfigs(selectedConfig) {
 
 function chooseFont(e, font) {
     log.debug("Moving font...")
-    fs.copy(font, `${pathToDF}/data/art/font.ttf`, {
+    fs.copy(font, path.join(pathToDF, "data", "art", "font.ttf"), {
         overwrite: true
     })
     log.verbose(`Font (${font}) moved`)
@@ -623,18 +623,18 @@ function chooseFont(e, font) {
 
 function chooseTileset(e, tileset) {
     log.debug("Moving tileset...")
-    let end = tileset.substr(-3)
+    let end = path.extname(tileset)
     log.verbose("Tileset filetype: " + end)
-    fs.copy(tileset, `${pathToDF}/data/art/tileset.${end}`, {
+    fs.copy(tileset, path.join(pathToDF, "data", "art", "tileset" + end), {
         overwrite: true
     })
     log.verbose(`Tileset (${tileset}) moved`)
 
     let newConfigs = dfConfig
-    newConfigs[6].value = `tileset.${end}` // window font
-    newConfigs[10].value = `tileset.${end}` // fullscreen font
-    newConfigs[15].value = `tileset.${end}` // graphics window font
-    newConfigs[18].value = `tileset.${end}` // graphics fullscreen font
+    newConfigs[6].value = `tileset${end}` // window font
+    newConfigs[10].value = `tileset${end}` // fullscreen font
+    newConfigs[15].value = `tileset${end}` // graphics window font
+    newConfigs[18].value = `tileset${end}` // graphics fullscreen font
 
     updateConfigs({}, "init", newConfigs)
 
@@ -651,7 +651,7 @@ function updateConfigs(e, which, newConfigs) {
     log.verbose("Update configs" + which)
     if (which == "init") {
         // Update the config.json file
-        fs.write(`${pathToData}/config.json`, newConfigs, {
+        fs.write(path.join(pathToData, "config.json"), newConfigs, {
                 jsonIndent: 4
             })
             // Update the init.txt file
@@ -660,12 +660,12 @@ function updateConfigs(e, which, newConfigs) {
             inits += "\n"
             inits += `[${config.field}:${config.value}]`
         })
-        fs.write(`${pathToDF}/data/init/init.txt`, inits)
+        fs.write(path.join(pathToDF, "data", "init", "init.txt"), inits)
     } else if (which == "d_init") {
         let supplement = fs.read(dfdConfigSupplement)
 
         // Update the d_config.json file
-        fs.write(`${pathToData}/d_config.json`, newConfigs, {
+        fs.write(path.join(pathToData, "D_config.json"), newConfigs, {
                 jsonIndent: 4
             })
             // Update the d_init.txt file
@@ -674,9 +674,9 @@ function updateConfigs(e, which, newConfigs) {
             inits += "\n"
             inits += `[${config.field}:${config.value}]`
         })
-        fs.write(`${pathToDF}/data/init/d_init.txt`, inits + supplement)
+        fs.write(path.join(pathToDF, "data", "init", "d_init.txt"), inits + supplement)
     } else if (which == "config") {
-        fs.write(`${__dirname}/assets/config/config.json`, newConfigs, {
+        fs.write(path.join(__dirname, "assets", "config", "config.json"), newConfigs, {
             jsonIndent: 4
         })
     } else {
@@ -722,17 +722,17 @@ app.on('ready', function () {
     if(config.startups !== 0) {
         log.verbose("Startups !== 0")
 
-        fs.dir(`${pathToData}/config`)
-        fs.dir(`${pathToData}/fonts`)
-        fs.dir(`${pathToData}/saves`)
-        fs.dir(`${pathToData}/tilesets`)
+        fs.dir(path.join(pathToData, "config"))
+        fs.dir(path.join(pathToData, "fonts"))
+        fs.dir(path.join(pathToData, "saves"))
+        fs.dir(path.join(pathToData, "tilesets"))
 
         updateDataContents()
 
-        contents = require(`${pathToData}/contents.json`)
-        dfConfig = require(`${pathToData}/config.json`)
-        dfdConfig = require(`${pathToData}/d_config.json`)
-        dfdConfigSupplement = `${pathToData}/dconfigsupplement.txt`
+        contents = require(path.join(pathToData, "contents.json"))
+        dfConfig = require(path.join(pathToData, "config.json"))
+        dfdConfig = require(path.join(pathToData, "d_config.json"))
+        dfdConfigSupplement = path.join(pathToData, "dconfigsupplement.txt")
 
         createWindow()
     } else {
