@@ -335,6 +335,10 @@ app.restart = function () {
 function updateDataContents() {
     let contents = fs.read(`${pathToData}/contents.json`, "json")
     log.verbose(contents)
+    if(contents === undefined) {
+        prepData()
+        contents = fs.read(`${pathToData}/contents.json`, "json")
+    }
 
     contents.config = fs.find(`${pathToData}/config`, {
         matching: "[^.]*\.tar\.gz"
@@ -426,13 +430,11 @@ function startup (e, data, df) {
         jsonIndent: 4
     })
 
-    prepData()
-
     app.restart()
 }
 
 function prepData () {
-    fs.write(`${pathToData}/contents.json`, { // add blank contents.json
+    fs.write(`${config.settings.data.dir.path}/contents.json`, { // add blank contents.json
         config: "",
         fonts: "",
         tilesets: "",
@@ -442,21 +444,25 @@ function prepData () {
     })
 
     // Move the DF config helper files
-    fs.copy(`${__dirname}/assets/data/config.json`, `${pathToData}/config.json`)
-    fs.copy(`${__dirname}/assets/data/d_config.json`, `${pathToData}/d_config.json`)
-    fs.copy(`${__dirname}/assets/data/dconfigsupplement.txt`, `${pathToData}/dconfigsupplement.txt`)
+    fs.copy(`${__dirname}/assets/data/config.json`, `${config.settings.data.dir.path}/config.json`)
+    fs.copy(`${__dirname}/assets/data/d_config.json`, `${config.settings.data.dir.path}/d_config.json`)
+    fs.copy(`${__dirname}/assets/data/dconfigsupplement.txt`, `${config.settings.data.dir.path}/dconfigsupplement.txt`)
 
     // Move default DF font and tilesets to the data folder
-    fs.find(`${pathToDF}/data/art`, {
+    fs.find(`${config.settings.df.dir.path}/data/art`, {
         matching: "[^.]*\.ttf"
     }).forEach(function (font) {
-        fs.copy(font, `${pathToData}/fonts/${path.basename(font)}`)
+        fs.copy(font, `${config.settings.data.dir.path}/fonts/${path.basename(font)}`)
     })
-    fs.find(`${pathToDF}/data/art`, {
+    fs.find(`${config.settings.df.dir.path}/data/art`, {
         matching: "[^.]@(*.png|*.bmp)"
     }).forEach(function (tileset) {
-        if (tileset.indexOf("mouse") === -1) fs.copy(tileset, `${pathToData}/tilesets/${path.basename(tileset)}`)
+        if (tileset.indexOf("mouse") === -1) fs.copy(tileset, `${config.settings.data.dir.path}/tilesets/${path.basename(tileset)}`)
     })
+    const defaultTileset = fs.find(`${config.settings.df.dir.path}/data/art`, {
+        matching: "curses_800x600.png"
+    })[0]
+    fs.copy(defaultTileset, `${config.settings.df.dir.path}/data/art/tileset.png`)
 }
 
 // Launcher function (index.js)
@@ -635,6 +641,7 @@ function chooseTileset(e, tileset) {
 
     updateConfigs({}, "config", newConfigs)
     log.debug("Tileset moved")
+    e.sender.reload()
 }
 
 function updateConfigs(e, which, newConfigs) {
