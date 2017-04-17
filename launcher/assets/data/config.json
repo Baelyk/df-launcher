@@ -41,7 +41,7 @@
             ],
             "type": "bool"
         },
-        "value": "NO"
+        "value": "YES"
     },
     {
         "categories": [
@@ -374,7 +374,7 @@
             ],
             "type": "bool"
         },
-        "value": "YES"
+        "value": "NO"
     },
     {
         "categories": [
