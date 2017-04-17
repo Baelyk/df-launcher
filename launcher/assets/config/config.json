@@ -1,0 +1,149 @@
+{
+    "ui": {
+        "categories": {
+            "init": [
+                {
+                    "name": "All",
+                    "tag": "all"
+                },
+                {
+                    "name": "Sound",
+                    "tag": "sound"
+                },
+                {
+                    "name": "Startup",
+                    "tag": "startup"
+                },
+                {
+                    "name": "Fullscreen",
+                    "tag": "fullscreen"
+                },
+                {
+                    "name": "Window",
+                    "tag": "window"
+                },
+                {
+                    "name": "Font",
+                    "tag": "font"
+                },
+                {
+                    "name": "Miscellaneous",
+                    "tag": "misc"
+                },
+                {
+                    "name": "Graphics",
+                    "tag": "graphics"
+                },
+                {
+                    "name": "Miscellaneous",
+                    "tag": "misc"
+                },
+                {
+                    "name": "FPS",
+                    "tag": "fps"
+                },
+                {
+                    "name": "Performance",
+                    "tag": "performance"
+                },
+                {
+                    "name": "Mouse",
+                    "tag": "mouse"
+                },
+                {
+                    "name": "Keys",
+                    "tag": "keys"
+                },
+                {
+                    "name": "Timing",
+                    "tag": "timing"
+                }
+            ],
+            "d_init": [
+                {
+                    "name": "All",
+                    "tag": "all"
+                },
+                {
+                    "name": "Save",
+                    "tag": "save"
+                },
+                {
+                    "name": "Display",
+                    "tag": "display"
+                },
+                {
+                    "name": "Load",
+                    "tag": "load"
+                },
+                {
+                    "name": "Options",
+                    "tag": "options"
+                },
+                {
+                    "name": "Miscellaneous",
+                    "tag": "misc"
+                },
+                {
+                    "name": "World Generation",
+                    "tag": "worldgen"
+                },
+                {
+                    "name": "Fortress Mode",
+                    "tag": "fortress"
+                },
+                {
+                    "name": "Adventurer Mode",
+                    "tag": "adventurer"
+                },
+                {
+                    "name": "Legends Mode",
+                    "tag": "legends"
+                },
+                {
+                    "name": "Nickname",
+                    "tag": "nickname"
+                }
+            ]
+        },
+        "usedFont": "/Users/Baelyk/Documents/Programming/Electron/df-launcher/data/fonts/Deja Vu Sans.ttf",
+        "usedTileset": "/Users/Baelyk/Documents/Programming/Electron/df-launcher/data/tilesets/curses_800x600.png"
+    },
+    "basicSettings": {
+        "init": [
+            2,
+            24,
+            25,
+            26,
+            32
+        ],
+        "d_init": [
+            0,
+            5,
+            7,
+            51
+        ]
+    },
+    "settings": {
+        "log": {
+            "fileLogLevel": "debug",
+            "infoMode": true,
+            "verboseMode": true,
+            "debugMode": true,
+            "sillyMode": false
+        },
+        "data": {
+            "dir": {
+                "path": "/Users/baelyk/Programming/df-launcher/data",
+                "name": "data"
+            }
+        },
+        "df": {
+            "dir": {
+                "path": "/Users/baelyk/Programming/df-launcher/df_osx",
+                "name": "df_osx"
+            }
+        }
+    },
+    "startups": 1
+}

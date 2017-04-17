@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/css/firststartup.css">
+        <title>Startup Configuration</title>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Startup Config</h1>
+            <img src="assets/img/logo.png" alt="">
+        </div>
+        <p>Select first a directory for the launcher data, then the Dwarf Fortress directory.</p>
+        <hr />
+        <div class="data" id="data">
+            <h2>Data Directory</h2>
+            <button type="button" name="data">Select Directory</button>
+            <span class="dir" id="data-dir">None selected</span>
+        </div>
+        <div class="df" id="df">
+            <h2>Dwarf Fortress Directory</h2>
+            <button type="button" name="df">Select Directory</button>
+            <span class="dir" id="df-dir">None selected</span>
+        </div>
+        <hr />
+        <div class="restart" id="restart">
+            <h2>Restart</h2>
+            <button type="button" name="restart">Restart</button>
+            <p>
+                If you don't select a directory for one of the options below you will be faced with this window again.
+            </p>
+        </div>
+    </body>
+    <script src="assets/js/firststartup.js" charset="utf-8"></script>
+</html>

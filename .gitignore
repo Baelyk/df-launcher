@@ -1,0 +1,13 @@
+# DF stuff
+/df*
+
+# data
+/data
+
+# node stuff
+node_modules
+
+# other stuff
+releases
+font-awesome
+.DS_Store

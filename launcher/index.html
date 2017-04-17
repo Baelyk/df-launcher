@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/index.css">
+    <title>Dwarf Fortress Launcher</title>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Dwarf Fortress Launcher</h1>
+        <button type="button" class="launch-df" id="launchDF">Launch DF</button>
+        <hr />
+    </div>
+    <div class="controls">
+        <div class="toggle-advanced-div">
+            <button type="button" class="toggle-advanced" id="toggleAdvanced" title="View all configurable settings">Toggle Advanced Mode</button>
+        </div>
+        <div class="view-buttons" id="viewbuttons">
+            <button type="button" class="view-button view-button-backup" id="view-backup">Backup and Restore</button>
+            <button type="button" class="view-button view-button-ft" id="view-ft">Fonts and Tilesets</button>
+            <button type="button" class="view-button view-button-settings" id="view-settings">Settings</button>
+        </div>
+        <div class="configs" id="configs">
+            <div class="backups hidden" id="backups">
+                <div class="saves">
+                    <h2>Saves</h2>
+                    <button type="button" id="backupSaves" title="Add a (.tar.gz compressed) copy of your DF saves to the launcher save backups. (<enclusing folder>/data/saves)">Backup Saves</button>
+                    <br />
+                    <select class="save-select option" id="save-select" title="Select a save backup to restore. Defaults to the most recent save backup."></select>
+                    <button type="button" id="restoreSaves" title="Restore a save backup. (Uncompresses and moves a save backup to your DF saves.)">Restore Saves</button>
+                </div>
+                <div class="config">
+                    <h2>Configs</h2>
+                    <button type="button" id="backupConfig" title="Add a (.tar.gz compressed) copy of your DF configs (init and d_init) to the launcher config backups. (<enclusing folder>/data/config)">Backup Config</button>
+                    <br />
+                    <select class="config-select option" id="config-select" title="Select a config (init and d_init) backup to restore. Defaults to the most recent config backup."></select>
+                    <button type="button" id="restoreConfig" title="Restore a config (init and d_init) backup. (Uncompresses and moves a config backup to your DF configs.)">Restore Config</button>
+                </div>
+            </div>
+            <div class="font-and-tileset hidden" id="fontandtileset">
+                <div class="font">
+                    <h2>TrueType Font</h2>
+                    <form class="font-form" id="font-form">
+                        <select class="font-options option" id="font-options" name="font-options" title="Select a font to use."></select>
+                        <input type="submit" name="choose-Font" id="chooseFont" value="Use Font" title="Move a .ttf font from <enclosing folder>/data/fonts to df data/art, and renames it font.ttf. TrueType font must be enabled, or press F12 in game.">
+                    </form>
+                </div>
+                <div class="tileset">
+                    <h2>Tileset</h2>
+                    <form class="tileset-form" id="tileset-form">
+                        <select class="tileset-options option" id="tileset-options" name="tileset-options" title="Select a tileset to use."></select>
+                        <input type="submit" name="chooseTileset" id="chooseTileset" value="Use Tileset" title="Move a tilset from <enclosing folder>/data/tilesets to df data/art, and renames it tileset.<file ending>. Make sure that Font under init.txt > Font is 'tileset.<file ending>'.">
+                    </form>
+                </div>
+            </div>
+            <div class="reload-contents hidden">
+                <hr />
+                <button type="button" id="reloadContents" title="Reload save, config, font, and tileset options. (Do this if you just added a new font or tileset, or just backed up saves or configs.)">Reload Contents</button>
+            </div>
+            <div class="settings hidden" id="settings">
+                <div class="basicdfconfig-div" id="basicdfconfig-div">
+                    <h2>Modify game settings</h2>
+                    <form class="basicdfconfig-form" id="basicdfconfig-form">
+                        <div class="basicdfconfig-options" id="basicdfconfig-options">
+                        </div>
+                        <input type="submit" class="basicdfconfig-submit" id="basicdfconfig-submit" value="Update Settings" title="Update basic settings.">
+                    </form>
+                    <!-- <span class="adanved-note" id="advanced-note">Toggle Advanced Mode for all config options.</span> -->
+                </div>
+                <div class="dfconfig-div hidden" id="dfconfig-div">
+                    <h2>Modify init.txt settings</h2>
+                    <form class="dfconfig-form" id="dfconfig-form">
+                        <select class="categories dfconfig-category" id="dfconfig-category">
+                                <option value="">Categories don't seem to be loading :/</option>
+                            </select>
+                        <br /><br />
+                        <div class="dfconfig-options" id="dfconfig-options">
+                        </div>
+                        <input type="submit" class="dfconfig-submit" id="dfconfig-submit" value="Update Configuration" disabled="true" title="Update init.txt settings.">
+                    </form>
+                </div>
+                <div class="dfdconfig-div hidden" id="dfdconfig-div">
+                    <h2>Modify d_init.txt settings</h2>
+                    <form class="dfdconfig-form" id="dfdconfig-form">
+                        <select class="categories dfdconfig-category" id="dfdconfig-category">
+                                <option value="">Categories don't seem to be loading :/</option>
+                            </select>
+                        <br /><br />
+                        <div class="dfdconfig-options" id="dfdconfig-options">
+                        </div>
+                        <input type="submit" class="dfdconfig-submit" id="dfdconfig-submit" value="Update Configuration" disabled="true" title="Update d_init.txt settings.">
+                    </form>
+                </div>
+            </div>
+            <div class="description" id="description">
+                <p>
+                    <b>Dwarf Fortress Launcher</b> is just what is sounds like.<br />
+                    Click "Launch DF" in the top right to play.<br /><br />
+                    Backup and restore saves and the DF configs in the Backup and Restore section.<br />
+                    Add fonts or tilesets to the data directory to select them in the Font and Tilesets section.<br />
+                    Modify DF configs in the Settings section.<br /><br />
+                    Most items have a tooltip if you hover over them.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    require("./assets/js/index.js")
+</script>
+
+</html>
