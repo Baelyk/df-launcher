@@ -21,25 +21,15 @@ const log = {
     },
 }
 
-function generatePaths (subPath) { // customized for launcher/assets/js
-    const path = __dirname.substr(0, __dirname.lastIndexOf("/launcher/assets/js"))
-    console.log(path)
-    if(subPath.charAt(0) == "/") {
-        return path + subPath
-    } else {
-        return path + "/" + subPath
-    }
-}
-
-const path = __dirname.replace("/assets/js", "") // __dirname includes /assets/js
-const config = require(`${path}/assets/config/config.json`)
+// const path = __dirname.replace("/assets/js", "") // __dirname includes /assets/js
+const config = require(path.join(__dirname, "..", "config", "config.json"))
 const pathToDF = config.settings.df.dir.path
 const pathToData = config.settings.data.dir.path
 // const pathToDF = "/Volumes/Untitled 1/Programs/Games/Dwarf Fortress/Dwarf Fortress Launcher/df_43_05_osx"
 // const pathToData = "/Volumes/Untitled 1/Programs/Games/Dwarf Fortress/Dwarf Fortress Launcher/data"
-const contents = require(`${pathToData}/contents.json`)
-const dfConfig = require(`${pathToData}/config.json`)
-const dfdConfig = require(`${pathToData}/d_config.json`)
+const contents = require(path.join(pathToData, "contents.json"))
+const dfConfig = require(path.join(pathToData, "config.json"))
+const dfdConfig = require(path.join(pathToData, "d_config.json"))
 
 
 let launchDFbtn = document.getElementById("launchDF")
@@ -98,7 +88,7 @@ function populateOptions() {
     console.log("Font options")
     let options = []
     contents.fonts.forEach(function(e) {
-        options.push(((e.replace(pathToData + "/fonts/", "")).replace(/\.ttf/gi, "")).replace(/_/gi, " "))
+        options.push(path.basename(e, ".ttf"))
     })
     options.forEach(function(e, i) {
         let selected = config.ui.usedFont == contents.fonts[i] ? "selected" : ""
@@ -109,7 +99,7 @@ function populateOptions() {
     console.log("Tileset options")
     options = []
     contents.tilesets.forEach(function(e) {
-        options.push(((e.replace(pathToData + "/tilesets/", "")).replace(/\.png|\.bmp/gi, "")).replace(/_/gi, " "))
+        options.push(path.basename(e, path.extname(e)))
     })
     options.forEach(function(e, i) {
         let selected = config.ui.usedTileset == contents.tilesets[i] ? "selected" : ""
@@ -121,7 +111,7 @@ function populateOptions() {
     options = []
     let recentestSave = []
     contents.saves.forEach(function(e) {
-        let save = (e.replace(pathToData + "/saves/", "")).replace(/\.tar\.gz/gi, "")
+        let save = path.basename
         log.info(save)
         if(/\d\d\d\d\d\d\d\d\d\d\d\d\d/.test(save)) {
             recentestSave.push(save)
