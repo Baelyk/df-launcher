@@ -475,6 +475,7 @@ function launchDF() {
     log.debug("launching df")
     // dfPath = pathToDF.replace(/ /gi, "\\ ")
     // log.debug(dfPath)
+    log.debug(`"${path.join(pathToDF, "df")}" ; exit;`)
     exec(`"${path.join(pathToDF, "df")}" ; exit;`, function(error, out, err) {
         if (error) {
             log.error(error)

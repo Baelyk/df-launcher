@@ -134,16 +134,16 @@
         },
         "data": {
             "dir": {
-                "path": "",
-                "name": ""
+                "path": "/Users/Baelyk/Documents/Programming/Electron/df-launcher/data",
+                "name": "data"
             }
         },
         "df": {
             "dir": {
-                "path": "",
-                "name": ""
+                "path": "/Users/Baelyk/Documents/Programming/Electron/df-launcher/df_43_05_osx",
+                "name": "df_43_05_osx"
             }
         }
     },
-    "startups": 0
+    "startups": 1
 }

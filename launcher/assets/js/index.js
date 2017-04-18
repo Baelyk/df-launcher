@@ -1,4 +1,5 @@
 const ipc = require("electron").ipcRenderer
+const path = require("path")
 
 const log = {
     error: function (msg) {
@@ -111,7 +112,7 @@ function populateOptions() {
     options = []
     let recentestSave = []
     contents.saves.forEach(function(e) {
-        let save = path.basename
+        let save = path.basename(e, ".tar.gz")
         log.info(save)
         if(/\d\d\d\d\d\d\d\d\d\d\d\d\d/.test(save)) {
             recentestSave.push(save)
@@ -133,7 +134,7 @@ function populateOptions() {
     options = []
     let recentestConfig = []
     contents.config.forEach(function(e) {
-        let config = (e.replace(pathToData + "/config/", "")).replace(/\.tar\.gz/gi, "")
+        let config = path.basename(e, ".tar.gz")
         if(/\d\d\d\d\d\d\d\d\d\d\d\d\d/.test(config)) {
             recentestConfig.push(config)
             let date = new Date(+config)
@@ -331,8 +332,6 @@ function updateConfigs(init) {
                 options.splice(i, 1)
             }
         }
-
-
 
         options.forEach(function(option, index) {
             let i = optionFieldMap.indexOf(option.field)
