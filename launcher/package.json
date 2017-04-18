@@ -5,8 +5,7 @@
   "description": "A minimal Dwarf Fortress Launcher",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "clean": "node clean.js"
+    "start": "electron ."
   },
   "devDependencies": {
     "electron": "^1.4.1"

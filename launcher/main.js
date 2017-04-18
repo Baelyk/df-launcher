@@ -53,7 +53,7 @@ const log = {
 
 // Constants
 const pathToDF = config.settings.df.dir.path
-const pathToData = path.join(app.getPath("appData"), app.getName()) // config.settings.data.dir.path
+const pathToData = path.join(app.getPath("appData"), app.getName(), "data") // config.settings.data.dir.path
 
 // "Constants"
 
@@ -411,7 +411,7 @@ function selectDirectory (e, directory) { // directory: true for data, false for
 }
 
 function startup (e, df) {
-    let dataDir = path.join(app.getPath("appData"), app.getName())
+    let dataDir = pathToData
     // let dataDirName = data[1]
     let dfDir = df[0]
     let dfDirName = df[1]
@@ -458,15 +458,15 @@ function initData () {
     }).forEach(function (font) {
         fs.copy(font, path.join(pathToData, "fonts", path.basename(font)))
     })
-    fs.find(path.join(config.settings.df.dir.path, "data", "art"), {
+    fs.find(path.join(pathToDF, "data", "art"), {
         matching: "[^.]@(*.png|*.bmp)"
     }).forEach(function (tileset) {
         if (tileset.indexOf("mouse") === -1) fs.copy(tileset, path.join(pathToData, "tilesets", path.basename(tileset)))
     })
-    const defaultTileset = fs.find(path.join(config.settings.df.dir.path, "data", "art"), {
+    const defaultTileset = fs.find(path.join(pathToDF, "data", "art"), {
         matching: "curses_800x600.png"
     })[0]
-    fs.copy(defaultTileset, path.join(pathToData, "tilesets", "tileset.png"))
+    fs.copy(defaultTileset, path.join(pathToDF, "data", "art", "tileset.png"))
 }
 
 // Launcher function (index.js)
