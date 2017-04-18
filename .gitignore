@@ -6,6 +6,7 @@
 
 # node stuff
 node_modules
+npm-*
 
 # other stuff
 releases

@@ -19,3 +19,4 @@ It's still not done and needs some further work, but it does work. I wouldn't us
 - Manage multiple versions
 - Add fonts and tilesets to the data directory through the launcher (not manually moving them there)
 - Move all paths to use the `path` module
+- Use `app.getPath("appData")` instead of a manual data folder.
