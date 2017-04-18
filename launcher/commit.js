@@ -1,4 +1,7 @@
-{
+const fs = require("fs-jetpack")
+const path = require('path')
+
+const config = {
     "ui": {
         "categories": {
             "init": [
@@ -147,3 +150,9 @@
     },
     "startups": 0
 }
+
+fs.write(path.join(__dirname, "assets", "config", "config.json"), config, {
+    jsonIndent: 4
+})
+
+console.log("Cleaned and ready to commit!")
