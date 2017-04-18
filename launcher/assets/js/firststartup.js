@@ -73,6 +73,6 @@ restartbtn.addEventListener("click", function () {
         // ipc.send("startup-fail")
     } else {
         console.log("Startup succeeded (because you followed the directions)!")
-        ipc.send("startup-succeed", [datadir, datadirname], [dfdir, dfdirname])
+        ipc.send("startup-succeed", [dfdir, dfdirname])
     }
 })

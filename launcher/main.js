@@ -53,7 +53,7 @@ const log = {
 
 // Constants
 const pathToDF = config.settings.df.dir.path
-const pathToData = config.settings.data.dir.path
+const pathToData = path.join(app.getPath("appData"), app.getName()) // config.settings.data.dir.path
 
 // "Constants"
 
@@ -340,7 +340,7 @@ function updateDataContents() {
     let contents = fs.read(path.join(pathToData, "contents.json"), "json")
     log.verbose(contents)
     if(contents === undefined) {
-        prepData()
+        initData()
         contents = fs.read(path.join(pathToData, "contents.json"), "json")
     }
 
@@ -410,18 +410,18 @@ function selectDirectory (e, directory) { // directory: true for data, false for
     }
 }
 
-function startup (e, data, df) {
-    let dataDir = data[0]
-    let dataDirName = data[1]
+function startup (e, df) {
+    // let dataDir = data[0]
+    // let dataDirName = data[1]
     let dfDir = df[0]
     let dfDirName = df[1]
 
     log.verbose("Running startup")
 
-    log.verbose("dataDir " + dataDir)
-    log.verbose("dataDirName " + dataDirName)
-    config.settings.data.dir.path = dataDir
-    config.settings.data.dir.name = dataDirName
+    log.verbose("dataDir " + path.join(__dirname, "assets", "config", "config.json")) // TODO: make this nicer (we don't need to join this 4 times)
+    log.verbose("dataDirName " + path.basename(path.join(__dirname, "assets", "config", "config.json")))
+    config.settings.data.dir.path = path.join(__dirname, "assets", "config", "config.json")
+    config.settings.data.dir.name = path.basename(path.join(__dirname, "assets", "config", "config.json"))
 
     log.verbose("dfDir " + dfDir)
     log.verbose("dfDirName " + dfDirName)
@@ -437,8 +437,8 @@ function startup (e, data, df) {
     app.restart()
 }
 
-function prepData () {
-    fs.write(path.join(config.settings.data.dir.path, "contents.json"), { // add blank contents.json
+function initData () {
+    fs.write(path.join(pathToData, "contents.json"), { // add blank contents.json
         config: "",
         fonts: "",
         tilesets: "",
@@ -448,25 +448,25 @@ function prepData () {
     })
 
     // Move the DF config helper files
-    fs.copy(path.join(__dirname, "assets", "data", "config.json"), `${config.settings.data.dir.path}/config.json`)
-    fs.copy(path.join(__dirname, "assets", "data", "d_config.json"), `${config.settings.data.dir.path}/d_config.json`)
-    fs.copy(path.join(__dirname, "assets", "data", "dfconfigsupplement.txt"), `${config.settings.data.dir.path}/dconfigsupplement.txt`)
+    fs.copy(path.join(__dirname, "assets", "data", "config.json"), path.join(pathToData, "config.json"))
+    fs.copy(path.join(__dirname, "assets", "data", "d_config.json"), path.join(pathToData, "d_config.json"))
+    fs.copy(path.join(__dirname, "assets", "data", "dconfigsupplement.txt"), path.join(pathToData, "dconfigsupplement.txt"))
 
     // Move default DF font and tilesets to the data folder
-    fs.find(path.join(config.settings.df.dir.path, "data", "art"), {
+    fs.find(path.join(pathToData, "data", "art"), {
         matching: "[^.]*\.ttf"
     }).forEach(function (font) {
-        fs.copy(font, path.join(config.settings.data.dir.path, "fonts", path.basename(font)))
+        fs.copy(font, path.join(pathToData, "fonts", path.basename(font)))
     })
     fs.find(path.join(config.settings.df.dir.path, "data", "art"), {
         matching: "[^.]@(*.png|*.bmp)"
     }).forEach(function (tileset) {
-        if (tileset.indexOf("mouse") === -1) fs.copy(tileset, path.join(config.settings.data.dir.path, "tilesets", path.basename(tileset)))
+        if (tileset.indexOf("mouse") === -1) fs.copy(tileset, path.join(pathToData, "tilesets", path.basename(tileset)))
     })
     const defaultTileset = fs.find(path.join(config.settings.df.dir.path, "data", "art"), {
         matching: "curses_800x600.png"
     })[0]
-    fs.copy(defaultTileset, path.join(config.settings.data.dir.path, "tilesets", "tileset.png"))
+    fs.copy(defaultTileset, path.join(pathToData, "tilesets", "tileset.png"))
 }
 
 // Launcher function (index.js)
