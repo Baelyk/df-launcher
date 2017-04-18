@@ -411,17 +411,17 @@ function selectDirectory (e, directory) { // directory: true for data, false for
 }
 
 function startup (e, df) {
-    // let dataDir = data[0]
+    let dataDir = path.join(app.getPath("appData"), app.getName())
     // let dataDirName = data[1]
     let dfDir = df[0]
     let dfDirName = df[1]
 
     log.verbose("Running startup")
 
-    log.verbose("dataDir " + path.join(__dirname, "assets", "config", "config.json")) // TODO: make this nicer (we don't need to join this 4 times)
-    log.verbose("dataDirName " + path.basename(path.join(__dirname, "assets", "config", "config.json")))
-    config.settings.data.dir.path = path.join(__dirname, "assets", "config", "config.json")
-    config.settings.data.dir.name = path.basename(path.join(__dirname, "assets", "config", "config.json"))
+    log.verbose("dataDir " + dataDir) // TODO: make this nicer (we don't need to join this 4 times)
+    log.verbose("dataDirName " + path.basename(dataDir))
+    config.settings.data.dir.path = dataDir
+    config.settings.data.dir.name = path.basename(dataDir)
 
     log.verbose("dfDir " + dfDir)
     log.verbose("dfDirName " + dfDirName)
@@ -453,7 +453,7 @@ function initData () {
     fs.copy(path.join(__dirname, "assets", "data", "dconfigsupplement.txt"), path.join(pathToData, "dconfigsupplement.txt"))
 
     // Move default DF font and tilesets to the data folder
-    fs.find(path.join(pathToData, "data", "art"), {
+    fs.find(path.join(pathToDF, "data", "art"), {
         matching: "[^.]*\.ttf"
     }).forEach(function (font) {
         fs.copy(font, path.join(pathToData, "fonts", path.basename(font)))
