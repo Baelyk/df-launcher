@@ -1,6 +1,6 @@
 # Dwarf Fortress Launcher File System
 
-The launcher's main file source (apart from itself) is in the user's located with `path.join(app.getPath("appData"), app.getName())` (e.g. `~/Library/Application Support/Dwarf-Fortress-Launcher`).
+The launcher's main file source (apart from itself) is in the user's located with `path.join(app.getPath("appData"), app.getName())` (e.g. `~/Library/Application Support/Dwarf-Fortress-Launcher`). [More `app.getPath()` info here.](https://electron.atom.io/docs/api/app/#appgetpathname)
 
 ## Organization
 

@@ -21,6 +21,8 @@ It's still not done and needs some further work, but it does work. I wouldn't us
 - ~~Move all paths to use the `path` module~~
 - ~~Use `app.getPath("appData")` instead of a manual data folder.~~
 - Move all file paths to the main config
+- Conform to standard.js
+- Split `main.js` into multiple files (e.g. Menu, fonts + tilesets, functions)
 
 ## Documentation
 
