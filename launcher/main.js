@@ -275,6 +275,11 @@ if (process.platform === 'darwin') {
 
 // Functions -------------------------------------------------------------------
 
+String.prototype.capFirst = function() { // eslint-disable-line
+  // [source](http://stackoverflow.com/a/1026087)
+  return this.charAt(0).toUpperCase() + this.slice(1); // eslint-disable-line
+}
+
 // Electron functions
 
 function newStartupWindow () {
@@ -363,6 +368,24 @@ function updateDataContents () {
     jsonIndent: 4
   })
   log.debug('Updated data/contents.json')
+}
+
+function selectFile (event, what) {
+  let type = what.split(' ')[1]
+  let title = `${what.split(' ')[0].capFirst()} ${type.capFirst()}`
+  dialog.showOpenDialog(BrowserWindow.fromId(event.sender.id), {
+    title: title,
+    filters: [
+      {name: 'Fonts', extensions: type === 'font' ? ['ttf'] : ['bmp', 'png']}
+    ],
+    properties: ['openFile'] // TODO: multiSelections
+  }, files => {
+    if (files) {
+      files = files[0]
+      // event.sender.send('selected-file', files, what)
+      addFontOrTilest(event, files, what)
+    }
+  })
 }
 
 // Startup function (firststartup.js)
@@ -595,6 +618,12 @@ function restoreConfigs (selectedConfig) {
   log.debug('Config restored.')
 }
 
+function addFontOrTilest (event, files, what) {
+  let type = what.split(' ')[1] + 's'
+  fs.move(files, path.join(pathToData, type, path.basename(files)))
+  event.sender.send('added-files', files, what)
+}
+
 function chooseFont (e, font) {
   log.debug('Moving font...')
   fs.copy(font, path.join(pathToDF, 'data', 'art', 'font.ttf'), {
@@ -770,6 +799,10 @@ ipc.on('startup-fail', function () {
   app.restart()
 })
 ipc.on('startup-succeed', startup)
+
+// from settings.js
+
+ipc.on('select-file', selectFile)
 
 // log events
 

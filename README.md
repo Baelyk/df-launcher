@@ -23,6 +23,7 @@ It's still not done and needs some further work, but it does work. I wouldn't us
 - Move all file paths to the main config
 - Conform to standard.js
 - Split `main.js` into multiple files (e.g. Menu, fonts + tilesets, functions)
+- Make it `data/configs` not `data/config`
 
 ## Documentation
 
