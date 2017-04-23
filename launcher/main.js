@@ -63,7 +63,7 @@ log.verbose('pathToData: ' + pathToData)
 log.verbose('pathToDF: ' + pathToDF)
 
 // Variables
-let mainWindow, startupWindow
+let mainWindow, startupWindow, preferencesWindow
 
 // Menu ------------------------------------------------------------------------
 
@@ -228,6 +228,14 @@ if (process.platform === 'darwin') {
     }, {
       type: 'separator'
     }, {
+      label: 'Preferences',
+      accelerator: 'CommandOrControl+,',
+      click: function () {
+        createPreferencesWindow()
+      }
+    }, {
+      type: 'separator'
+    }, {
       role: 'services',
       submenu: []
     }, {
@@ -320,6 +328,25 @@ function createWindow () {
   })
 }
 
+function createPreferencesWindow () {
+  preferencesWindow = new BrowserWindow({
+    width: 400,
+    height: 700,
+    resizable: false,
+    fullscreenable: false
+  })
+
+  preferencesWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'settings.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
+
+  preferencesWindow.on('closed', function () {
+    mainWindow = null
+  })
+}
+
 app.restart = function () {
     // from https://github.com/electron/electron/issues/3524
   var exec = require('child_process').exec
@@ -328,6 +355,16 @@ app.restart = function () {
 }
 
 // App functions
+
+function ErrorGUI (message, options = {
+  title: 'Error',
+  detail: '',
+  bWin: undefined
+}, callback = function () {}) {
+  options.message = message
+  // log.debug(options.bWin)
+  dialog.showMessageBox(options.bWin, options, callback)
+}
 
 function updateDataContents () {
   let contents = fs.read(path.join(pathToData, 'contents.json'), 'json')
@@ -371,10 +408,14 @@ function updateDataContents () {
 }
 
 function selectFile (event, what) {
+  let dirPath = what.split(' ')[0] === 'remove' ? path.join(pathToData, `${what.split(' ')[1]}s`) : ''
   let type = what.split(' ')[1]
   let title = `${what.split(' ')[0].capFirst()} ${type.capFirst()}`
+  let button = what.capFirst()
   dialog.showOpenDialog(BrowserWindow.fromId(event.sender.id), {
     title: title,
+    defaultPath: dirPath,
+    buttonLabel: button,
     filters: [
       {name: 'Fonts', extensions: type === 'font' ? ['ttf'] : ['bmp', 'png']}
     ],
@@ -383,7 +424,7 @@ function selectFile (event, what) {
     if (files) {
       files = files[0]
       // event.sender.send('selected-file', files, what)
-      addFontOrTilest(event, files, what)
+      what.split(' ')[0] === 'remove' ? removeFontOrTileset(event, files, what) : addFontOrTilest(event, files, what)
     }
   })
 }
@@ -622,6 +663,18 @@ function addFontOrTilest (event, files, what) {
   let type = what.split(' ')[1] + 's'
   fs.move(files, path.join(pathToData, type, path.basename(files)))
   event.sender.send('added-files', files, what)
+}
+
+function removeFontOrTileset (event, files, what) {
+  if (path.dirname(path.dirname(files)) === pathToData) {
+    fs.remove(files)
+  } else {
+    ErrorGUI(`${app.getName()} can only remove files in the data directory.`, {
+      bWin: BrowserWindow.fromId(event.sender.id),
+      details: `${files} is under ${path.dirname(path.dirname(files))} not ${pathToData}.`
+    })
+    log.error(`${files} is not in the data directory! Instead, it is here: ${path.dirname(path.dirname(files))}`)
+  }
 }
 
 function chooseFont (e, font) {

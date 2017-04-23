@@ -22,12 +22,12 @@ const log = {
   }
 }
 
-const config = require(path.join(__dirname, '..', 'config', 'config.json'))
-const pathToDF = config.settings.df.dir.path
-const pathToData = config.settings.data.dir.path
-const contents = require(path.join(pathToData, 'contents.json'))
-const dfConfig = require(path.join(pathToData, 'config.json'))
-const dfdConfig = require(path.join(pathToData, 'd_config.json'))
+// const config = require(path.join(__dirname, '..', 'config', 'config.json'))
+// const pathToDF = config.settings.df.dir.path
+// const pathToData = config.settings.data.dir.path
+// const contents = require(path.join(pathToData, 'contents.json'))
+// const dfConfig = require(path.join(pathToData, 'config.json'))
+// const dfdConfig = require(path.join(pathToData, 'd_config.json'))
 
 let add = {
   fontBtn: document.querySelector('#addfont'),
