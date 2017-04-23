@@ -12,7 +12,9 @@ const fs = require('fs-jetpack')
 const archiver = require('archiver')
 const decompress = require('decompress')
 const decompressTargz = require('decompress-targz')
+const decompressTarbz2 = require('decompress-tarbz2')
 const electronLog = require('electron-log')
+const {download} = require('electron-dl')
 
 const path = require('path')
 const url = require('url')
@@ -347,7 +349,7 @@ function createPreferencesWindow () {
   })
 }
 
-app.restart = function () {
+function restart () {
     // from https://github.com/electron/electron/issues/3524
   var exec = require('child_process').exec
   exec(process.argv.join(' ')) // execute the command that was used to run the app
@@ -357,13 +359,35 @@ app.restart = function () {
 // App functions
 
 function ErrorGUI (message, options = {
+  type: 'error',
   title: 'Error',
   detail: '',
   bWin: undefined
 }, callback = function () {}) {
   options.message = message
+  options.type = 'error'
   // log.debug(options.bWin)
   dialog.showMessageBox(options.bWin, options, callback)
+}
+
+function requestRestart (reason, options = {
+  detail: ''
+}) {
+  log.verbose('Restart requested')
+  options.message = reason
+  options.type = 'question'
+  options.buttons = ['Restart', 'No']
+  options.defaultId = 0
+  options.detail = 'Would you like to restart?'
+  options.title = 'Restart'
+  dialog.showMessageBox(options, (response) => {
+    if (response === 0) { // if 'Yes' was clicked
+      log.verbose('Restart accepted')
+      restart()
+    } else {
+      log.verbose('Restart declined')
+    }
+  })
 }
 
 function updateDataContents () {
@@ -486,10 +510,15 @@ function startup (e, df) {
     jsonIndent: 4
   })
 
-  app.restart()
+  restart()
 }
 
 function initData () {
+  fs.dir(path.join(pathToData, 'config'))
+  fs.dir(path.join(pathToData, 'fonts'))
+  fs.dir(path.join(pathToData, 'saves'))
+  fs.dir(path.join(pathToData, 'tilesets'))
+
   fs.write(path.join(pathToData, 'contents.json'), { // add blank contents.json
     config: '',
     fonts: '',
@@ -505,6 +534,7 @@ function initData () {
   fs.copy(path.join(__dirname, 'assets', 'data', 'dconfigsupplement.txt'), path.join(pathToData, 'dconfigsupplement.txt'))
 
     // Move default DF font and tilesets to the data folder
+
   fs.find(path.join(pathToDF, 'data', 'art'), {
     matching: '[^.]*.ttf'
   }).forEach(function (font) {
@@ -522,6 +552,30 @@ function initData () {
 }
 
 // Launcher function (index.js)
+
+function downloadDF (event, what) {
+  log.debug('downloadDF')
+  const version = what === 'newest' ? config.settings.df.downloads.newest.replace(/0\./gi, '').replace(/\./gi, '_') : what
+  const platform = process.platform === 'darwin' ? 'osx' : process.platform === 'win32' ? 'win_s' : 'linux'
+  const extention = process.platform === 'win32' ? '.zip' : '.tar.bz2'
+  const downloadURL = `http://www.bay12games.com/dwarves/df_${version}_${platform}${extention}` // what === 'newest' ? 'true' : 'false' // http://www.bay12games.com/dwarves/df_43_04_win_s.zip
+  log.debug(downloadURL)
+  download(BrowserWindow.fromId(event.sender.id), downloadURL, {
+    directory: path.join(pathToData, 'df')
+  })
+  .then((df) => {
+    const destination = path.join(pathToData, 'df', `${version}_${Date.now()}`)
+    log.verbose('Downloaded df!')
+    decompress(df.getSavePath(), destination, { plugins: [ decompressTarbz2() ] })
+    .then(function () {
+      log.verbose(`DF decompressed at ${destination}!`)
+      /* const pathToDF = */ config.settings.df.dir.path = destination
+      event.sender.send('download-finished')
+      requestRestart('You must restart now restart to use the downloaded version.')
+    })
+  })
+  .catch(log.error)
+}
 
 function launchDF () {
   log.debug('launching df')
@@ -795,11 +849,6 @@ app.on('ready', function () {
   if (config.startups !== 0) {
     log.verbose('Startups !== 0')
 
-    fs.dir(path.join(pathToData, 'config'))
-    fs.dir(path.join(pathToData, 'fonts'))
-    fs.dir(path.join(pathToData, 'saves'))
-    fs.dir(path.join(pathToData, 'tilesets'))
-
     updateDataContents()
 
     contents = require(path.join(pathToData, 'contents.json'))
@@ -849,13 +898,14 @@ ipc.on('reload-contents', updateDataContents)
 ipc.on('dirbtn-click', selectDirectory)
 ipc.on('startup-fail', function () {
   log.debug('Startup failed.')
-  app.restart()
+  restart()
 })
 ipc.on('startup-succeed', startup)
 
 // from settings.js
 
 ipc.on('select-file', selectFile)
+ipc.on('download', downloadDF)
 
 // log events
 

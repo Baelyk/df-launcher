@@ -6,19 +6,19 @@ It's still not done and needs some further work, but it does work. I wouldn't us
 
 ## Features
 
-- Launch Dwarf Fortress
-- Edit basic configs
-- Edit almost all of the configs in `init.txt` and `d_init.txt`
-- Change fonts and tilesets
-- Backup and restore saves and configurations
+-   Launch Dwarf Fortress
+-   Edit basic configs
+-   Edit almost all of the configs in `init.txt` and `d_init.txt`
+-   Change fonts and tilesets
+-   Backup and restore saves and configurations
 
 ## Planned
 
-- Install DF through the launcher
-- Manage multiple versions
-- Conform to standard.js
-- [More](TODO.md)
+-   Install DF through the launcher
+-   Manage multiple versions
+-   Conform to standard.js
+-   [More](TODO.md)
 
 ## Documentation
 
-- [Filesystem](FileSystem.md)
+-   [Filesystem](FileSystem.md)

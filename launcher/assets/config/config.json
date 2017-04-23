@@ -142,6 +142,9 @@
             "dir": {
                 "path": "",
                 "name": ""
+            },
+            "downloads": {
+              "newest": "0.43.05"
             }
         }
     },
