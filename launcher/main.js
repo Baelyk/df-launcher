@@ -398,7 +398,7 @@ function updateDataContents () {
     contents = fs.read(path.join(pathToData, 'contents.json'), 'json')
   }
 
-  contents.config = fs.find(path.join(pathToData, 'config'), {
+  contents.config = fs.find(path.join(pathToData, 'configs'), {
     matching: '[^.]*.tar.gz'
   })
   contents.fonts = fs.find(path.join(pathToData, 'fonts'), {
@@ -514,7 +514,8 @@ function startup (e, df) {
 }
 
 function initData () {
-  fs.dir(path.join(pathToData, 'config'))
+  fs.dir(path.join(pathToData, 'configs'))
+  fs.dir(path.join(pathToData, 'df'))
   fs.dir(path.join(pathToData, 'fonts'))
   fs.dir(path.join(pathToData, 'saves'))
   fs.dir(path.join(pathToData, 'tilesets'))
@@ -691,7 +692,7 @@ function restoreConfigs (selectedConfig) {
   if (arguments > 0 && selectedConfig !== '') {
     config = selectedConfig
   } else {
-    let configs = fs.find(path.join(pathToData, 'config'), {
+    let configs = fs.find(path.join(pathToData, 'configs'), {
       matching: "['1', '2', '3', '4', '5', '6', '7', '8', '9']*.tar.gz"
     })
     configs.forEach(function (e, i) {

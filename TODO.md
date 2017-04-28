@@ -9,8 +9,9 @@
 
 ## Fixes
 
--   Make it `data/configs` not `data/config`
 -   Handle font/tileset/backup names being too long (currently its a mess)
+- Get rid of the directory selection
+- Fix font/tileset selection after adding one
 
 ## Ideas
 
@@ -29,3 +30,4 @@
 -   Move all paths to use the `path` module
 -   Use `app.getPath("appData")` instead of a manual data folder.
 -   Add fonts and tilesets to the data directory through the launcher (not manually moving them there)
+-   Make it `data/configs` not `data/config`
