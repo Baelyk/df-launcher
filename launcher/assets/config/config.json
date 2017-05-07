@@ -144,8 +144,9 @@
                 "name": ""
             },
             "downloads": {
-              "newest": "0.43.05"
-            }
+                "newest": "0.43.05"
+            },
+            "launchable": false
         }
     },
     "startups": 0

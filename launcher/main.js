@@ -1,11 +1,7 @@
 // Load Electron and NodeJs modules --------------------------------------------
 
 const electron = require('electron')
-const app = electron.app
-const BrowserWindow = electron.BrowserWindow
-const Menu = electron.Menu
-const ipc = electron.ipcMain
-const dialog = electron.dialog
+const {app, BrowserWindow, Menu, ipcMain: ipc, dialog} = electron
 
 const exec = require('child_process').exec
 const fs = require('fs-jetpack')
@@ -19,16 +15,12 @@ const {download} = require('electron-dl')
 const path = require('path')
 const url = require('url')
 
-// const pathToConfig = fs.find(path.join(__dirname, "assets", "config"), {
-//     matching: "config.json"
-// })
-
 const pathToConfig = path.join(__dirname, 'assets', 'config', 'config.json')
 const config = require(pathToConfig)
 
-// module settings that should be set now --------------------------------------
+// Module settings -------------------------------------------------------------
 
-electronLog.transports.file.level = 'silly' // allow all config messages into the log file. Use launcher to and log to determine which messages are passed
+electronLog.transports.file.level = 'silly' // allow all config messages into the log file
 
 // Main process globals --------------------------------------------------------
 
@@ -456,6 +448,7 @@ function selectFile (event, what) {
 
 function updateLaunchable (newState) {
   config.settings.df.launchable = newState
+  updateConfigs(undefined, 'config', config)
   mainWindow.webContents.send('launchable', newState)
 }
 
@@ -584,9 +577,9 @@ function downloadDF (event, what) {
     const destination = path.join(pathToData, 'df', `${version}_${Date.now()}`)
     log.verbose('Downloaded df!')
     decompress(df.getSavePath(), destination, { plugins: [ decompressTarbz2() ] })
-    .then(function () {
-      log.verbose(`DF decompressed at ${destination}!`)
-      /* const pathToDF = */ config.settings.df.dir.path = destination
+    .then(files => {
+      log.verbose(`DF decompressed at ${path.join(destination, files[0].path)}!`)
+      /* const pathToDF = */ config.settings.df.dir.path = path.join(destination, files[0].path)
       event.sender.send('download-finished')
       updateLaunchable(true)
       requestRestart('You must restart now restart to use the downloaded version.')
@@ -823,7 +816,7 @@ function updateConfigs (e, which, newConfigs) {
     })
     fs.write(path.join(pathToDF, 'data', 'init', 'd_init.txt'), inits + supplement)
   } else if (which === 'config') {
-    fs.write(path.join(__dirname, 'assets', 'config', 'config.json'), newConfigs, {
+    fs.write(pathToConfig, newConfigs, {
       jsonIndent: 4
     })
   } else {
@@ -887,6 +880,9 @@ app.on('ready', function () {
   dfConfig = require(path.join(pathToData, 'config.json'))
   dfdConfig = require(path.join(pathToData, 'd_config.json'))
   dfdConfigSupplement = path.join(pathToData, 'dconfigsupplement.txt')
+
+  config.settings.data.dir.path = pathToData
+  updateConfigs(undefined, 'config', config)
 
   createWindow()
 

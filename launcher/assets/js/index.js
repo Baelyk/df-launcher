@@ -28,6 +28,7 @@ const config = require(path.join(__dirname, '..', 'config', 'config.json'))
 const pathToData = config.settings.data.dir.path
 // const pathToDF = "/Volumes/Untitled 1/Programs/Games/Dwarf Fortress/Dwarf Fortress Launcher/df_43_05_osx"
 // const pathToData = "/Volumes/Untitled 1/Programs/Games/Dwarf Fortress/Dwarf Fortress Launcher/data"
+console.log(config.settings.data.dir.path)
 const contents = require(path.join(pathToData, 'contents.json'))
 const dfConfig = require(path.join(pathToData, 'config.json'))
 const dfdConfig = require(path.join(pathToData, 'd_config.json'))

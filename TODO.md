@@ -26,6 +26,8 @@
 -   Move all the data dir setup to `initData()` in the main process
 -   Bundle the startup functions into an `init()`
 -   Work on opening text readability
+-   Include download extraction in progress bar (or add another for it)
+-   Move all config/config.json modification to use updateConfigs
 
 ## Done
 
