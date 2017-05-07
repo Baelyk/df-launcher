@@ -66,6 +66,7 @@ log.verbose('pathToDF: ' + pathToDF)
 
 // Variables
 let mainWindow, startupWindow, preferencesWindow
+// let launchable = config.settings.df.launchable
 
 // Menu ------------------------------------------------------------------------
 
@@ -453,6 +454,11 @@ function selectFile (event, what) {
   })
 }
 
+function updateLaunchable (newState) {
+  config.settings.df.launchable = newState
+  mainWindow.webContents.send('launchable', newState)
+}
+
 // Startup function (firststartup.js)
 
 function selectDirectory (e, directory) { // directory: true for data, false for df
@@ -514,6 +520,12 @@ function startup (e, df) {
 }
 
 function initData () {
+  config.settings.data.dir.path = pathToData
+
+  fs.write(pathToConfig, config, {
+    jsonIndent: 4
+  })
+
   fs.dir(path.join(pathToData, 'configs'))
   fs.dir(path.join(pathToData, 'df'))
   fs.dir(path.join(pathToData, 'fonts'))
@@ -536,20 +548,24 @@ function initData () {
 
     // Move default DF font and tilesets to the data folder
 
-  fs.find(path.join(pathToDF, 'data', 'art'), {
-    matching: '[^.]*.ttf'
-  }).forEach(function (font) {
-    fs.copy(font, path.join(pathToData, 'fonts', path.basename(font)))
-  })
-  fs.find(path.join(pathToDF, 'data', 'art'), {
-    matching: '[^.]@(*.png|*.bmp)'
-  }).forEach(function (tileset) {
-    if (tileset.indexOf('mouse') === -1) fs.copy(tileset, path.join(pathToData, 'tilesets', path.basename(tileset)))
-  })
-  const defaultTileset = fs.find(path.join(pathToDF, 'data', 'art'), {
-    matching: 'curses_800x600.png'
-  })[0]
-  fs.copy(defaultTileset, path.join(pathToDF, 'data', 'art', 'tileset.png'))
+  if (pathToDF !== '') {
+    fs.find(path.join(pathToDF, 'data', 'art'), {
+      matching: '[^.]*.ttf'
+    }).forEach(function (font) {
+      fs.copy(font, path.join(pathToData, 'fonts', path.basename(font)))
+    })
+    fs.find(path.join(pathToDF, 'data', 'art'), {
+      matching: '[^.]@(*.png|*.bmp)'
+    }).forEach(function (tileset) {
+      if (tileset.indexOf('mouse') === -1) fs.copy(tileset, path.join(pathToData, 'tilesets', path.basename(tileset)))
+    })
+    const defaultTileset = fs.find(path.join(pathToDF, 'data', 'art'), {
+      matching: 'curses_800x600.png'
+    })[0]
+    fs.copy(defaultTileset, path.join(pathToDF, 'data', 'art', 'tileset.png'))
+  } else {
+    log.verbose('pathToDF has not yet been defined.')
+  }
 }
 
 // Launcher function (index.js)
@@ -572,6 +588,7 @@ function downloadDF (event, what) {
       log.verbose(`DF decompressed at ${destination}!`)
       /* const pathToDF = */ config.settings.df.dir.path = destination
       event.sender.send('download-finished')
+      updateLaunchable(true)
       requestRestart('You must restart now restart to use the downloaded version.')
     })
   })
@@ -580,16 +597,18 @@ function downloadDF (event, what) {
 
 function launchDF () {
   log.debug('launching df')
-    // dfPath = pathToDF.replace(/ /gi, "\\ ")
-    // log.debug(dfPath)
+  // dfPath = pathToDF.replace(/ /gi, "\\ ")
+  // log.debug(dfPath)
   log.debug(`"${path.join(pathToDF, 'df')}" ; exit;`)
-  exec(`"${path.join(pathToDF, 'df')}" ; exit;`, function (error, out, err) {
-    if (error) {
-      log.error(error)
-    } else {
-      log.verbose('launchDF output ' + out)
-    }
-  })
+  if (config.settings.df.launchable) {
+    exec(`"${path.join(pathToDF, 'df')}" ; exit;`, function (error, out, err) {
+      if (error) {
+        log.error(error)
+      } else {
+        log.verbose('launchDF output ' + out)
+      }
+    })
+  }
 }
 
 function backupSaves () {
@@ -847,21 +866,33 @@ function toggleAdvancedMode () {
 
 app.on('ready', function () {
   Menu.setApplicationMenu(Menu.buildFromTemplate(menuPlate))
-  if (config.startups !== 0) {
-    log.verbose('Startups !== 0')
+  // if (config.startups !== 0) {
+  //   log.verbose('Startups !== 0')
+  //
+  //   updateDataContents()
+  //
+  //   contents = require(path.join(pathToData, 'contents.json'))
+  //   dfConfig = require(path.join(pathToData, 'config.json'))
+  //   dfdConfig = require(path.join(pathToData, 'd_config.json'))
+  //   dfdConfigSupplement = path.join(pathToData, 'dconfigsupplement.txt')
+  //
+  //   createWindow()
+  // } else {
+  //   log.verbose('Startups === 0')
+  //   // newStartupWindow()
+  // }
+  updateDataContents()
 
-    updateDataContents()
+  contents = require(path.join(pathToData, 'contents.json'))
+  dfConfig = require(path.join(pathToData, 'config.json'))
+  dfdConfig = require(path.join(pathToData, 'd_config.json'))
+  dfdConfigSupplement = path.join(pathToData, 'dconfigsupplement.txt')
 
-    contents = require(path.join(pathToData, 'contents.json'))
-    dfConfig = require(path.join(pathToData, 'config.json'))
-    dfdConfig = require(path.join(pathToData, 'd_config.json'))
-    dfdConfigSupplement = path.join(pathToData, 'dconfigsupplement.txt')
+  createWindow()
 
-    createWindow()
-  } else {
-    log.verbose('Startups === 0')
-    newStartupWindow()
-  }
+  mainWindow.webContents.on('did-finish-load', () => {
+    updateLaunchable(config.settings.df.launchable)
+  })
 })
 
 app.on('window-all-closed', function () {

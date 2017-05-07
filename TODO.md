@@ -10,8 +10,8 @@
 ## Fixes
 
 -   Handle font/tileset/backup names being too long (currently its a mess)
-- Get rid of the directory selection
-- Fix font/tileset selection after adding one
+-   Get rid of the directory selection
+-   Fix font/tileset selection after adding one
 
 ## Ideas
 
@@ -24,6 +24,8 @@
 -   Split `main.js` into multiple files (e.g. Menu, fonts + tilesets, functions)
 -   Update to the newest version of Electron (1.6.5 right now)
 -   Move all the data dir setup to `initData()` in the main process
+-   Bundle the startup functions into an `init()`
+-   Work on opening text readability
 
 ## Done
 
