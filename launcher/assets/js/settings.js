@@ -22,7 +22,7 @@ const log = {
   }
 }
 
-// const config = require(path.join(__dirname, '..', 'config', 'config.json'))
+const config = require(path.join(__dirname, '..', 'config', 'config.json'))
 // const pathToDF = config.settings.df.dir.path
 // const pathToData = config.settings.data.dir.path
 // const contents = require(path.join(pathToData, 'contents.json'))
@@ -38,9 +38,14 @@ let remove = {
   tilesetBtn: document.querySelector('#removetileset')
 }
 let download = {
-  newestBtn: document.querySelector('#downloadnewest')
+  newestBtn: document.querySelector('#downloadnewest'),
+  customIpt: document.querySelector('#customversion'),
+  customBtn: document.querySelector('#downloadcustom')
 }
 
+function init () {
+  download.customIpt.value = config.settings.df.downloads.newest
+}
 // function addedFile (files, what) {
 //   let type = what.split(' ')
 //   log.verbose(`${type} (${files}) ${Array.isArray(files) && files.length > 1 ? 'have' : 'has'} been added`)
@@ -69,3 +74,5 @@ download.newestBtn.addEventListener('click', () => {
 
 // ipc.on('added-files', addedFile)
 ipc.on('download-finished', downloadFinished)
+
+init()
