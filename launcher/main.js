@@ -46,8 +46,8 @@ const log = {
 }
 
 // Constants
-const pathToDF = config.settings.df.dir.path
-const pathToData = path.join(app.getPath('appData'), app.getName(), 'data') // config.settings.data.dir.path
+const pathToDF = config.settings.paths.df
+const pathToData = path.join(app.getPath('appData'), app.getName(), 'data') // config.settings.paths.data
 
 // "Constants"
 
@@ -495,13 +495,11 @@ function startup (e, df) {
 
   log.verbose('dataDir ' + dataDir) // TODO: make this nicer (we don't need to join this 4 times)
   log.verbose('dataDirName ' + path.basename(dataDir))
-  config.settings.data.dir.path = dataDir
-  config.settings.data.dir.name = path.basename(dataDir)
+  config.settings.paths.data = dataDir
 
   log.verbose('dfDir ' + dfDir)
   log.verbose('dfDirName ' + dfDirName)
-  config.settings.df.dir.path = dfDir
-  config.settings.df.dir.name = dfDirName
+  config.settings.paths.df = dfDir
 
   config.startups++
 
@@ -513,7 +511,7 @@ function startup (e, df) {
 }
 
 function initData () {
-  config.settings.data.dir.path = pathToData
+  config.settings.paths.data = pathToData
 
   fs.write(pathToConfig, config, {
     jsonIndent: 4
@@ -579,7 +577,7 @@ function downloadDF (event, what) {
     decompress(df.getSavePath(), destination, { plugins: [ decompressTarbz2() ] })
     .then(files => {
       log.verbose(`DF decompressed at ${path.join(destination, files[0].path)}!`)
-      /* const pathToDF = */ config.settings.df.dir.path = path.join(destination, files[0].path)
+      /* const pathToDF = */ config.settings.paths.df = path.join(destination, files[0].path)
       event.sender.send('download-finished')
       updateLaunchable(true)
       requestRestart('You must restart now restart to use the downloaded version.')
@@ -876,13 +874,19 @@ app.on('ready', function () {
   // }
   updateDataContents()
 
-  contents = require(path.join(pathToData, 'contents.json'))
-  dfConfig = require(path.join(pathToData, 'config.json'))
-  dfdConfig = require(path.join(pathToData, 'd_config.json'))
-  dfdConfigSupplement = path.join(pathToData, 'dconfigsupplement.txt')
+  config.settings.paths.config = path.join(__dirname, 'assets', 'config', 'config.json')
+  config.settings.paths.contents = path.join(pathToData, 'contents.json')
+  config.settings.paths.dfConfig = path.join(pathToData, 'config.json')
+  config.settings.paths.dfdConfig = path.join(pathToData, 'd_config.json')
+  config.settings.paths.dfdConfigSupplement = path.join(pathToData, 'dconfigsupplement.txt')
+  config.settings.paths.data = pathToData
 
-  config.settings.data.dir.path = pathToData
   updateConfigs(undefined, 'config', config)
+
+  contents = require(config.settings.paths.contents)
+  dfConfig = require(config.settings.paths.dfConfig)
+  dfdConfig = require(config.settings.paths.dfdConfig)
+  dfdConfigSupplement = config.settings.paths.dfdConfigSupplement
 
   createWindow()
 

@@ -125,6 +125,15 @@
         ]
     },
     "settings": {
+        "paths": {
+            "config": "",
+            "contents": "",
+            "data": "",
+            "df": "",
+            "dfConfig": "",
+            "dfdConfig": "",
+            "dfdConfigSupplement": ""
+        },
         "log": {
             "fileLogLevel": "debug",
             "infoMode": true,

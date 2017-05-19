@@ -25,7 +25,7 @@ const log = {
 // const path = __dirname.replace("/assets/js", "") // __dirname includes /assets/js
 const config = require(path.join(__dirname, '..', 'config', 'config.json'))
 // const pathToDF = config.settings.df.dir.path
-const pathToData = config.settings.data.dir.path
+const pathToData = config.settings.paths.data
 // const pathToDF = "/Volumes/Untitled 1/Programs/Games/Dwarf Fortress/Dwarf Fortress Launcher/df_43_05_osx"
 // const pathToData = "/Volumes/Untitled 1/Programs/Games/Dwarf Fortress/Dwarf Fortress Launcher/data"
 console.log(config.settings.data.dir.path)
