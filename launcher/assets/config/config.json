@@ -126,13 +126,13 @@
     },
     "settings": {
         "paths": {
-            "config": "",
-            "contents": "",
-            "data": "",
-            "df": "",
-            "dfConfig": "",
-            "dfdConfig": "",
-            "dfdConfigSupplement": ""
+            "config": "/Users/Baelyk/Programming/df-launcher/launcher/assets/config/config.json",
+            "contents": "/Users/Baelyk/Library/Application Support/Dwarf-Fortress-Launcher/data/contents.json",
+            "data": "/Users/Baelyk/Library/Application Support/Dwarf-Fortress-Launcher/data",
+            "df": "/Users/Baelyk/Library/Application Support/Dwarf-Fortress-Launcher/data/df/43_05_1499475810410/df_osx/",
+            "dfConfig": "/Users/Baelyk/Library/Application Support/Dwarf-Fortress-Launcher/data/config.json",
+            "dfdConfig": "/Users/Baelyk/Library/Application Support/Dwarf-Fortress-Launcher/data/d_config.json",
+            "dfdConfigSupplement": "/Users/Baelyk/Library/Application Support/Dwarf-Fortress-Launcher/data/dconfigsupplement.txt"
         },
         "log": {
             "fileLogLevel": "debug",
@@ -155,7 +155,7 @@
             "downloads": {
                 "newest": "0.43.05"
             },
-            "launchable": false
+            "launchable": true
         }
     },
     "startups": 0

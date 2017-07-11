@@ -14,24 +14,13 @@
 
 ## Ideas
 
--   Change the restart to use `app.relaunch()`
-
 ## Other
 
--   Move all file paths to the main config
 -   **Conform to standard.js**
--   Split `main.js` into multiple files (e.g. Menu, fonts + tilesets, functions)
+-   Split `main.js` into multiple files (e.g. Menu, fonts + tilesets, functions)?
 -   Update to the newest version of Electron (1.6.5 right now)
--   Move all the data dir setup to `initData()` in the main process
--   Bundle the startup functions into an `init()`
 -   Work on opening text readability
--   Include download extraction in progress bar (or add another for it)
 -   Move all config/config.json modification to use updateConfigs
-
-## Done
-
--   Move all paths to use the `path` module
--   Use `app.getPath("appData")` instead of a manual data folder.
--   Add fonts and tilesets to the data directory through the launcher (not manually moving them there)
--   Make it `data/configs` not `data/config`
--   Install DF through the launcher
+-   Reorganize the source file layout (with a src dir)
+-   Use Stylus instead of CSS
+-   Unify CSS (Stylus) to one file?

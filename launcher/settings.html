@@ -3,26 +3,27 @@
     <head>
         <meta charset="utf-8">
         <title>Settings</title>
+        <link rel="stylesheet" href="assets/css/settings.css">
     </head>
     <body>
         <h1>Settings</h1>
-        <div class="" id="fonts">
-            <h2>Add or remove fonts</h2>
-            <button type="button" id="addfont">Add a font</button>
-            <button type="button" id="removefont">Remove a font</button>
+        <div class="container">
+            <div class="column-left" id="fonts">
+                <h2>Add or remove fonts</h2>
+                <button type="button" id="addfont">Add a font</button>
+                <button type="button" id="removefont">Remove a font</button>
+            </div>
+            <div class="column-center" id="tilesets">
+                <h2>Add or remove tilesets</h2>
+                <button type="button" id="addtileset">Add a tileset</button>
+                <button type="button" id="removetileset">Remove a tileset</button>
+            </div>
+            <div class="column-right" id="download">
+                <h2>Download Dwarf Fortress</h2>
+                <button type="button" id="downloaddf">Download Newest DF</button><br />
+            </div>
         </div>
-        <div class="" id="tilesets">
-            <h2>Add or remove tilesets</h2>
-            <button type="button" id="addtileset">Add a tileset</button>
-            <button type="button" id="removetileset">Remove a tileset</button>
-        </div>
-        <div class="" id="download">
-            <h2>Download Dwarf Fortress</h2>
-            <button type="button" id="downloadnewest">Download Newest DF</button><br />
-            <input type="text" id="customversion" value="">
-            <button type="button" id="downloadcustom"></button>
-            <p>Restart the launcher to use the new downloaded version.</p>
-        </div>
+        <footer>Source code on <a href="https://github.com/Baelyk/df-launcher">GitHub</a>.</footer>
     </body>
     <script src="assets/js/settings.js" charset="utf-8"></script>
 </html>

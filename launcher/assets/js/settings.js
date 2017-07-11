@@ -38,20 +38,11 @@ let remove = {
   tilesetBtn: document.querySelector('#removetileset')
 }
 let download = {
-  newestBtn: document.querySelector('#downloadnewest'),
-  customIpt: document.querySelector('#customversion'),
-  customBtn: document.querySelector('#downloadcustom')
+  btn: document.querySelector('#downloaddf'),
 }
 
-function init () {
-  download.customIpt.value = config.settings.df.downloads.newest
-}
-// function addedFile (files, what) {
-//   let type = what.split(' ')
-//   log.verbose(`${type} (${files}) ${Array.isArray(files) && files.length > 1 ? 'have' : 'has'} been added`)
-// }
 function downloadFinished () {
-  download.newestBtn.disabled = false
+  download.btn.disabled = false
 }
 
 add.fontBtn.addEventListener('click', () => {
@@ -67,12 +58,10 @@ remove.tilesetBtn.addEventListener('click', () => {
   ipc.send('select-file', 'remove tileset')
 })
 
-download.newestBtn.addEventListener('click', () => {
-  download.newestBtn.disabled = true
+download.btn.addEventListener('click', () => {
+  download.btn.disabled = true
   ipc.send('download', 'newest')
 })
 
 // ipc.on('added-files', addedFile)
 ipc.on('download-finished', downloadFinished)
-
-init()

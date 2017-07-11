@@ -47,7 +47,7 @@ const log = {
 
 // Constants
 const pathToDF = config.settings.paths.df
-const pathToData = path.join(app.getPath('appData'), app.getName(), 'data') // config.settings.paths.data
+const pathToData = config.settings.paths.data || path.join(app.getPath('appData'), app.getName(), 'data')
 
 // "Constants"
 
@@ -57,7 +57,7 @@ log.verbose('pathToData: ' + pathToData)
 log.verbose('pathToDF: ' + pathToDF)
 
 // Variables
-let mainWindow, startupWindow, preferencesWindow
+let mainWindow, preferencesWindow
 // let launchable = config.settings.df.launchable
 
 // Menu ------------------------------------------------------------------------
@@ -285,25 +285,6 @@ String.prototype.capFirst = function() { // eslint-disable-line
 
 // Electron functions
 
-function newStartupWindow () {
-  startupWindow = new BrowserWindow({
-    width: 400,
-    height: 700,
-    resizable: false,
-    fullscreenable: false
-  })
-
-  startupWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'firststartup.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
-
-  startupWindow.on('closed', function () {
-    startupWindow = null
-  })
-}
-
 function createWindow () {
   mainWindow = new BrowserWindow({
     width: 400,
@@ -325,8 +306,8 @@ function createWindow () {
 
 function createPreferencesWindow () {
   preferencesWindow = new BrowserWindow({
-    width: 400,
-    height: 700,
+    width: 600,
+    height: 400,
     resizable: false,
     fullscreenable: false
   })

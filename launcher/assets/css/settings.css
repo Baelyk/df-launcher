@@ -1,0 +1,83 @@
+body {
+    overflow: hidden;
+}
+
+.column-left {
+    float: left;
+    width: 33%;
+}
+.column-center {
+    display: inline-block;
+    width: 33%;
+}
+.column-right {
+    float: right;
+    width: 33%;
+}
+
+input, button, select, .toggle {
+    margin: 2pt;
+    vertical-align: middle;
+}
+
+input:focus, button:focus, select:focus, .toggle:focus {
+    outline: 0;
+}
+
+input, button, select {
+    -webkit-appearance: none;
+    font-family: "Perfect DOS VGA 437", menlo, monospace;
+    font-size: 10pt;
+    background-color: #ffffff;
+    border: 1pt solid black;
+    border-radius: 5pt;
+}
+
+button, input[type="submit"] {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+button:hover:enabled, input[type="submit"]:hover:enabled {
+    background-color: #f7f7f7;
+}
+
+body {
+    font-family: menlo, monospace;
+    font-size: 11pt;
+}
+
+h1 {
+    font-family: "Perfect DOS VGA 437", menlo, monospace;
+    font-size: 30pt;
+    /*width: 175px;*/
+    /*float: left;*/
+    /*margin: 7px;*/
+}
+
+h2 {
+    font-family: "Perfect DOS VGA 437", menlo, monospace;
+}
+
+hr {
+    width: 375px;
+    height: 1px;
+    color: black;
+    background: black;
+    font-size: 0;
+    border: 0;
+    /*margin-bottom: 7px;*/
+}
+
+.description {
+    font-family: Verdana, sans-serif;
+    font-size: 12pt;
+}
+
+footer {
+    position: absolute;
+    bottom: 8px;
+}
