@@ -433,6 +433,38 @@ function updateLaunchable (newState) {
   mainWindow.webContents.send('launchable', newState)
 }
 
+function resetLauncherConfigs () {
+  let newConfigs = config
+
+  newConfigs.basicSettings = {
+    init: [
+      2,
+      24,
+      25,
+      26,
+      32
+    ],
+    d_init: [
+      0,
+      5,
+      7,
+      51
+    ]
+  }
+  newConfigs.settings.paths = {
+    config: '',
+    contents: '',
+    dfConfig: '',
+    dfdConfig: '',
+    dfdConfigSupplement: '',
+    data: ''
+  }
+  newConfigs.settings.df.launchable = false
+
+  updateConfigs(undefined, 'config', newConfigs)
+  requestRestart('A restart is required for the reset to take effect.')
+}
+
 // Startup function (firststartup.js)
 
 function selectDirectory (e, directory) { // directory: true for data, false for df
@@ -563,6 +595,7 @@ function downloadDF (event, what) {
       updateLaunchable(true)
       requestRestart('You must restart now restart to use the downloaded version.')
     })
+    .catch(log.error)
   })
   .catch(log.error)
 }
@@ -919,6 +952,7 @@ ipc.on('startup-succeed', startup)
 
 ipc.on('select-file', selectFile)
 ipc.on('download', downloadDF)
+ipc.on('reset-launcher-configs', resetLauncherConfigs)
 
 // log events
 

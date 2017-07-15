@@ -69,16 +69,13 @@ hr {
     background: black;
     font-size: 0;
     border: 0;
-    /*margin-bottom: 7px;*/
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 .description {
     font-family: Verdana, sans-serif;
     font-size: 12pt;
-}
-
-#reset {
-    margin: 5pt 0;
 }
 
 .center {

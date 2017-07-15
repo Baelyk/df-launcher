@@ -41,6 +41,8 @@ let download = {
   btn: document.querySelector('#downloaddf')
 }
 
+let resetBtn = document.querySelector('#resetbtn')
+
 function downloadFinished () {
   download.btn.disabled = false
 }
@@ -57,10 +59,12 @@ remove.fontBtn.addEventListener('click', () => {
 remove.tilesetBtn.addEventListener('click', () => {
   ipc.send('select-file', 'remove tileset')
 })
-
 download.btn.addEventListener('click', () => {
   download.btn.disabled = true
   ipc.send('download', 'newest')
+})
+resetBtn.addEventListener('click', () => {
+  ipc.send('reset-launcher-configs')
 })
 
 // ipc.on('added-files', addedFile)

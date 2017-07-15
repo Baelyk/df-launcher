@@ -131,7 +131,8 @@
             "dfConfig": "/Users/Baelyk/Library/Application Support/Dwarf-Fortress-Launcher/data/config.json",
             "dfdConfig": "/Users/Baelyk/Library/Application Support/Dwarf-Fortress-Launcher/data/d_config.json",
             "dfdConfigSupplement": "/Users/Baelyk/Library/Application Support/Dwarf-Fortress-Launcher/data/dconfigsupplement.txt",
-            "data": "/Users/Baelyk/Library/Application Support/Dwarf-Fortress-Launcher/data"
+            "data": "/Users/Baelyk/Library/Application Support/Dwarf-Fortress-Launcher/data",
+            "df": "/Users/Baelyk/Library/Application Support/Dwarf-Fortress-Launcher/data/df/43_05_1500142410542/df_osx/"
         },
         "log": {
             "fileLogLevel": "debug",
