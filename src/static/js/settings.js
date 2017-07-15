@@ -22,7 +22,7 @@ const log = {
   }
 }
 
-const config = require(path.join(__dirname, 'assets', 'config', 'config.json'))
+const config = require(path.join(__dirname, '..', '..', 'config', 'config.json'))
 // const pathToDF = config.settings.df.dir.path
 // const pathToData = config.settings.data.dir.path
 // const contents = require(path.join(pathToData, 'contents.json'))
@@ -38,7 +38,7 @@ let remove = {
   tilesetBtn: document.querySelector('#removetileset')
 }
 let download = {
-  btn: document.querySelector('#downloaddf'),
+  btn: document.querySelector('#downloaddf')
 }
 
 function downloadFinished () {

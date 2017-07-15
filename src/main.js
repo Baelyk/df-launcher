@@ -15,7 +15,7 @@ const {download} = require('electron-dl')
 const path = require('path')
 const url = require('url')
 
-const pathToConfig = path.join(__dirname, 'assets', 'config', 'config.json')
+const pathToConfig = path.join(__dirname, 'config', 'config.json')
 const config = require(pathToConfig)
 
 // Module settings -------------------------------------------------------------
@@ -294,7 +294,7 @@ function createWindow () {
   })
 
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
+    pathname: path.join(__dirname, 'static', 'html', 'index.html'),
     protocol: 'file:',
     slashes: true
   }))
@@ -313,7 +313,7 @@ function createPreferencesWindow () {
   })
 
   preferencesWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'settings.html'),
+    pathname: path.join(__dirname, 'static', 'html', 'settings.html'),
     protocol: 'file:',
     slashes: true
   }))
@@ -514,9 +514,9 @@ function initData () {
   })
 
     // Move the DF config helper files
-  fs.copy(path.join(__dirname, 'assets', 'data', 'config.json'), path.join(pathToData, 'config.json'))
-  fs.copy(path.join(__dirname, 'assets', 'data', 'd_config.json'), path.join(pathToData, 'd_config.json'))
-  fs.copy(path.join(__dirname, 'assets', 'data', 'dconfigsupplement.txt'), path.join(pathToData, 'dconfigsupplement.txt'))
+  fs.copy(path.join(__dirname, 'static', 'data', 'config.json'), path.join(pathToData, 'config.json'))
+  fs.copy(path.join(__dirname, 'static', 'data', 'd_config.json'), path.join(pathToData, 'd_config.json'))
+  fs.copy(path.join(__dirname, 'static', 'data', 'dconfigsupplement.txt'), path.join(pathToData, 'dconfigsupplement.txt'))
 
     // Move default DF font and tilesets to the data folder
 

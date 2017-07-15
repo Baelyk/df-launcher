@@ -1,0 +1,609 @@
+[
+    {
+        "categories": [
+            "sound"
+        ],
+        "description": "Change this to turn sound off.",
+        "field": "SOUND",
+        "name": "Sound",
+        "options": {
+            "options": [
+                "YES",
+                "NO"
+            ],
+            "type": "bool"
+        },
+        "value": "YES"
+    },
+    {
+        "categories": [
+            "sound"
+        ],
+        "description": "The sound volume runs from 0 (off) to 255 (full).  You can set the volume from the ESC options menu as well.",
+        "field": "VOLUME",
+        "name": "Volume Level",
+        "options": {
+            "type": "num"
+        },
+        "value": "255"
+    },
+    {
+        "categories": [
+            "startup"
+        ],
+        "description": "Change this to skip the wonderful intro movies.",
+        "field": "INTRO",
+        "name": "Intro",
+        "options": {
+            "options": [
+                "YES",
+                "NO"
+            ],
+            "type": "bool"
+        },
+        "value": "YES"
+    },
+    {
+        "categories": [
+            "startup",
+            "fullscreen"
+        ],
+        "description": "This lets you set the starting windowed/fullscreen setting.  Can be YES, NO or PROMPT.",
+        "field": "WINDOWED",
+        "name": "Windowed",
+        "options": {
+            "options": [
+                "YES",
+                "NO",
+                "PROMPT"
+            ],
+            "type": "multi"
+        },
+        "value": "YES"
+    },
+    {
+        "categories": [
+            "startup",
+            "window"
+        ],
+        "description": "This is the size and font for windowed mode.  Changing to the 800x600 font might make you happier. If set below 256x256 it specifies the grid size instead, with a minimum of 80x25.",
+        "field": "WINDOWEDX",
+        "name": "Windowed X",
+        "options": {
+            "type": "num"
+        },
+        "value": "80"
+    },
+    {
+        "categories": [
+            "startup",
+            "window"
+        ],
+        "description": "This is the size and font for windowed mode.  Changing to the 800x600 font might make you happier. If set below 256x256 it specifies the grid size instead, with a minimum of 80x25.",
+        "field": "WINDOWEDY",
+        "name": "Windowed Y",
+        "options": {
+            "type": "num"
+        },
+        "value": "25"
+    },
+    {
+        "categories": [
+            "font",
+            "window"
+        ],
+        "description": "This is the size and font for windowed mode.  Changing to the 800x600 font might make you happier. If set below 256x256 it specifies the grid size instead, with a minimum of 80x25.",
+        "field": "FONT",
+        "meta": {
+            "disabled": true
+        },
+        "name": "Font",
+        "options": {
+            "type": "string"
+        },
+        "value": "tileset.png"
+    },
+    {
+        "categories": [
+            "window"
+        ],
+        "description": "You may disable window resizing if you wish.",
+        "field": "RESIZABLE",
+        "name": "Resizable",
+        "options": {
+            "options": [
+                "YES",
+                "NO"
+            ],
+            "type": "bool"
+        },
+        "value": "YES"
+    },
+    {
+        "categories": [
+            "window",
+            "fullscreen"
+        ],
+        "description": "Full screen info.  The 0s below mean that the game will choose a resolution for you, but you can set it yourself as well.",
+        "field": "FULLSCREENX",
+        "name": "Fullscreen X",
+        "options": {
+            "type": "num"
+        },
+        "value": "0"
+    },
+    {
+        "categories": [
+            "window",
+            "fullscreen"
+        ],
+        "description": "Full screen info.  The 0s below mean that the game will choose a resolution for you, but you can set it yourself as well.",
+        "field": "FULLSCREENY",
+        "name": "Fullscreen Y",
+        "options": {
+            "type": "num"
+        },
+        "value": "0"
+    },
+    {
+        "categories": [
+            "fullscreen",
+            "font"
+        ],
+        "description": "Full screen info.  The 0s below mean that the game will choose a resolution for you, but you can set it yourself as well.",
+        "field": "FULLFONT",
+        "meta": {
+            "disabled": true
+        },
+        "name": "Fullscreen Font",
+        "options": {
+            "type": "string"
+        },
+        "value": "tileset.png"
+    },
+    {
+        "categories": [
+            "misc"
+        ],
+        "description": "If this is set to NO, tiles will be stretched to fit the screen if there is a resolution mismatch. If this is set to YES, the tiles will not be stretched, but rather the game view will be centralized, surrounded by black space.  Tiles that are too large will always be compressed rather than running off the screen.",
+        "field": "BLACK_SPACE",
+        "name": "Black Space",
+        "options": {
+            "options": [
+                "YES",
+                "NO"
+            ],
+            "type": "bool"
+        },
+        "value": "YES"
+    },
+    {
+        "categories": [
+            "graphics"
+        ],
+        "description": "Graphics info, most of it as above.  Set GRAPHICS to YES to turn it all on.  This will use the &quot;raw/graphics&quot; folder for tile information.  Currently this is limited to whatever creature graphics you have downloaded.  The game comes with a few pictures to demonstrate.  As of July 2016, the Dwarf Fortress Wiki has custom tilesets available at http://dwarffortresswiki.org/index.php/Tileset_repository and creature graphics at http://dwarffortresswiki.org/index.php/Graphics_set_repository.",
+        "field": "GRAPHICS",
+        "name": "Graphics",
+        "options": {
+            "options": [
+                "YES",
+                "NO"
+            ],
+            "type": "bool"
+        },
+        "value": "NO"
+    },
+    {
+        "categories": [
+            "graphics"
+        ],
+        "description": "Graphics info, most of it as above.  Set GRAPHICS to YES to turn it all on.  This will use the &quot;raw/graphics&quot; folder for tile information.  Currently this is limited to whatever creature graphics you have downloaded.  The game comes with a few pictures to demonstrate.  As of July 2016, the Dwarf Fortress Wiki has custom tilesets available at http://dwarffortresswiki.org/index.php/Tileset_repository and creature graphics at http://dwarffortresswiki.org/index.php/Graphics_set_repository.",
+        "field": "GRAPHICS_WINDOWEDX",
+        "name": "Graphics: Windowed X",
+        "options": {
+            "type": "num"
+        },
+        "value": "0"
+    },
+    {
+        "categories": [
+            "graphics"
+        ],
+        "description": "Graphics info, most of it as above.  Set GRAPHICS to YES to turn it all on.  This will use the &quot;raw/graphics&quot; folder for tile information.  Currently this is limited to whatever creature graphics you have downloaded.  The game comes with a few pictures to demonstrate.  As of July 2016, the Dwarf Fortress Wiki has custom tilesets available at http://dwarffortresswiki.org/index.php/Tileset_repository and creature graphics at http://dwarffortresswiki.org/index.php/Graphics_set_repository.",
+        "field": "GRAPHICS_WINDOWEDY",
+        "name": "Graphics: Windowed Y",
+        "options": {
+            "type": "num"
+        },
+        "value": "0"
+    },
+    {
+        "categories": [
+            "graphics"
+        ],
+        "description": "Graphics info, most of it as above.  Set GRAPHICS to YES to turn it all on.  This will use the &quot;raw/graphics&quot; folder for tile information.  Currently this is limited to whatever creature graphics you have downloaded.  The game comes with a few pictures to demonstrate.  As of July 2016, the Dwarf Fortress Wiki has custom tilesets available at http://dwarffortresswiki.org/index.php/Tileset_repository and creature graphics at http://dwarffortresswiki.org/index.php/Graphics_set_repository.",
+        "field": "GRAPHICS_FONT",
+        "meta": {
+            "disabled": true
+        },
+        "name": "Graphics: Font",
+        "options": {
+            "type": "string"
+        },
+        "value": "tileset.png"
+    },
+    {
+        "categories": [
+            "graphics"
+        ],
+        "description": "Graphics info, most of it as above.  Set GRAPHICS to YES to turn it all on.  This will use the &quot;raw/graphics&quot; folder for tile information.  Currently this is limited to whatever creature graphics you have downloaded.  The game comes with a few pictures to demonstrate.  As of July 2016, the Dwarf Fortress Wiki has custom tilesets available at http://dwarffortresswiki.org/index.php/Tileset_repository and creature graphics at http://dwarffortresswiki.org/index.php/Graphics_set_repository.",
+        "field": "GRAPHICS_FULLSCREENX",
+        "name": "Graphics: Fullscreen X",
+        "options": {
+            "type": "num"
+        },
+        "value": "0"
+    },
+    {
+        "categories": [
+            "graphics"
+        ],
+        "description": "Graphics info, most of it as above.  Set GRAPHICS to YES to turn it all on.  This will use the &quot;raw/graphics&quot; folder for tile information.  Currently this is limited to whatever creature graphics you have downloaded.  The game comes with a few pictures to demonstrate.  As of July 2016, the Dwarf Fortress Wiki has custom tilesets available at http://dwarffortresswiki.org/index.php/Tileset_repository and creature graphics at http://dwarffortresswiki.org/index.php/Graphics_set_repository.",
+        "field": "GRAPHICS_FULLSCREENY",
+        "name": "Graphics: Fullscreen Y",
+        "options": {
+            "type": "num"
+        },
+        "value": "0"
+    },
+    {
+        "categories": [
+            "graphics"
+        ],
+        "description": "Graphics info, most of it as above.  Set GRAPHICS to YES to turn it all on.  This will use the &quot;raw/graphics&quot; folder for tile information.  Currently this is limited to whatever creature graphics you have downloaded.  The game comes with a few pictures to demonstrate.  As of July 2016, the Dwarf Fortress Wiki has custom tilesets available at http://dwarffortresswiki.org/index.php/Tileset_repository and creature graphics at http://dwarffortresswiki.org/index.php/Graphics_set_repository.",
+        "field": "GRAPHICS_FULLFONT",
+        "meta": {
+            "disabled": true
+        },
+        "name": "Graphics: Fullscreen Font",
+        "options": {
+            "type": "string"
+        },
+        "value": "tileset.png"
+    },
+    {
+        "categories": [
+            "graphics"
+        ],
+        "description": "Graphics info, most of it as above.  Set GRAPHICS to YES to turn it all on.  This will use the &quot;raw/graphics&quot; folder for tile information.  Currently this is limited to whatever creature graphics you have downloaded.  The game comes with a few pictures to demonstrate.  As of July 2016, the Dwarf Fortress Wiki has custom tilesets available at http://dwarffortresswiki.org/index.php/Tileset_repository and creature graphics at http://dwarffortresswiki.org/index.php/Graphics_set_repository.",
+        "field": "GRAPHICS_BLACK_SPACE",
+        "name": "Graphics: Black Space",
+        "options": {
+            "options": [
+                "YES",
+                "NO"
+            ],
+            "type": "bool"
+        },
+        "value": "YES"
+    },
+    {
+        "categories": [
+            "misc"
+        ],
+        "description": "These settings can have a significant impact on frame rate, especially for people that have slow frame rates on the title screen.  Available modes are 2D, 2DSW, 2DASYNC, STANDARD, PARTIAL:<number>, ACCUM_BUFFER, FRAME_BUFFER and VBO. The number after PARTIAL refers to how many frames it will redo a printed tile before skipping it, so you might try increasing it a bit if you have flickering when PARTIAL is set.  Please note that any of these combinations might cause frame rates to drop significantly or cause unpleasant side effects like flickering. By and large, 2D should be the most reliable, while STANDARD has a good combination of speed and reliability. However, all 2D modes are normally far slower than even STANDARD, which may be the slowest OpenGL mode. On a multi-core machine none of this is very likely to matter; stick to 2D. 2DASYNC may be slightly more responsive than 2D on a multi-core machine, but this has recently become doubtful due to improvements to the other modes. Linux/OS X users may also use PRINT_MODE:TEXT for primitive ncurses output.",
+        "field": "PRINT_MODE",
+        "name": "Print Mode",
+        "options": {
+            "options": [
+                "2D",
+                "2DSW",
+                "2DASYNC",
+                "STANDARD",
+                "PARTIAL:<num>",
+                "ACCUM_BUFFER",
+                "FRAME_BUFFER",
+                "TEXT",
+                "VBO"
+            ],
+            "type": "multi"
+        },
+        "value": "2D"
+    },
+    {
+        "categories": [
+            "misc"
+        ],
+        "description": "N/A",
+        "field": "SINGLE_BUFFER",
+        "name": "Single Buffer",
+        "options": {
+            "options": [
+                "YES",
+                "NO"
+            ],
+            "type": "bool"
+        },
+        "value": "NO"
+    },
+    {
+        "categories": [
+            "font"
+        ],
+        "description": "Switches truetype on whenever the vertical tile size is this many pixels or larger.  You may also use YES/NO to force it on/off.  Turning it off may provide a minor speed boost (using font small enough that it doesn't activate won't).",
+        "field": "TRUETYPE",
+        "name": "TrueType",
+        "options": {
+            "options": [
+                "YES",
+                "NO",
+                "<num>"
+            ],
+            "type": "multi"
+        },
+        "value": "NO"
+    },
+    {
+        "categories": [
+            "window"
+        ],
+        "description": "Change this to YES to keep the DF window on top of your other windows.",
+        "field": "TOPMOST",
+        "name": "Topmost Window",
+        "options": {
+            "options": [
+                "YES",
+                "NO"
+            ],
+            "type": "multi"
+        },
+        "value": "YES"
+    },
+    {
+        "categories": [
+            "fps",
+            "performance"
+        ],
+        "description": "Change this to YES if you want to see an FPS counter at the top left.",
+        "field": "FPS",
+        "name": "FPS",
+        "options": {
+            "options": [
+                "YES",
+                "NO"
+            ],
+            "type": "bool"
+        },
+        "value": "NO"
+    },
+    {
+        "categories": [
+            "fps",
+            "performance"
+        ],
+        "description": "Use this to set the maximum frame rate during play.  The movies are always capped at 100.  A frame in this case is not graphical but related to the movement speed of a creature.  A healthy, unencumbered dwarven peasant takes one step every 10 frames. You may set FPS_CAP to 0 to make it uncapped.",
+        "field": "FPS_CAP",
+        "name": "FPS Cap",
+        "options": {
+            "type": "num"
+        },
+        "value": "100"
+    },
+    {
+        "categories": [
+            "fps",
+            "performance"
+        ],
+        "description": "Use this to set the maximum graphical frame refresh rate during play.",
+        "field": "G_FPS_CAP",
+        "name": "Graphical FPS Cap",
+        "options": {
+            "type": "num"
+        },
+        "value": "50"
+    },
+    {
+        "categories": [
+            "performance"
+        ],
+        "description": "On cards that support the OpenGL ARB_sync extension, turning this on can improve framerates in GPU overload conditions. It defaults to NO, as many cards that claim to support this will crash if asked to do so.",
+        "field": "ARB_SYNC",
+        "name": "ARB Sync",
+        "options": {
+            "options": [
+                "YES",
+                "NO"
+            ],
+            "type": "bool"
+        },
+        "value": "NO"
+    },
+    {
+        "categories": [
+            "performance"
+        ],
+        "description": "This sets the applications vertical synchronization behavior.  Changing this to YES can impact your FPS if your G_FPS is high. ARB_SYNC is a better option, if your system supports it.",
+        "field": "VSYNC",
+        "name": "VSYNC",
+        "options": {
+            "options": [
+                "YES",
+                "NO"
+            ],
+            "type": "bool"
+        },
+        "value": "NO"
+    },
+    {
+        "categories": [
+            "misc"
+        ],
+        "description": "Change this to NEAREST if you want the texture values to use the nearest pixel without averaging. Change this to LINEAR if you want the texture values to be averaged over the adjacent pixels.",
+        "field": "TEXTURE_PARAM",
+        "name": "Texture Paramater",
+        "options": {
+            "options": [
+                "NEAREST",
+                "LINEAR"
+            ],
+            "type": "multi"
+        },
+        "value": "NEAREST"
+    },
+    {
+        "categories": [
+            "performance"
+        ],
+        "description": "Change this to make the dwarfort.exe process have a different priority.  From highest to lowest, the options are REALTIME, HIGH, ABOVE_NORMAL, NORMAL, BELOW_NORMAL and IDLE.",
+        "field": "PRIORITY",
+        "name": "Priority",
+        "options": {
+            "options": [
+                "REALTIME",
+                "HIGH",
+                "ABOVE_NORMAL",
+                "NORMAL",
+                "BELOW_NORMAL",
+                "IDLE"
+            ],
+            "type": "multi"
+        },
+        "value": "REALTIME"
+    },
+    {
+        "categories": [
+            "misc"
+        ],
+        "description": "Use this to set how fast the game zooms.  The default corresponds to increasing grid size by 10 units each time you zoom.",
+        "field": "ZOOM_SPEED",
+        "name": "Zoom Sped",
+        "options": {
+            "type": "num"
+        },
+        "value": "10"
+    },
+    {
+        "categories": [
+            "mouse"
+        ],
+        "description": "Change this to NO if you don't want to have the mouse involved at all.",
+        "field": "MOUSE",
+        "name": "Mouse",
+        "options": {
+            "options": [
+                "YES",
+                "NO"
+            ],
+            "type": "bool"
+        },
+        "value": "YES"
+    },
+    {
+        "categories": [
+            "mouse"
+        ],
+        "description": "Change this to YES if you'd like to use a BMP for the mouse cursor.  The image currently lags when the game is lagging however.",
+        "field": "MOUSE_PICTURE",
+        "name": "Mouse Picture",
+        "options": {
+            "options": [
+                "YES",
+                "NO"
+            ],
+            "type": "bool"
+        },
+        "value": "NO"
+    },
+    {
+        "categories": [
+            "keys",
+            "timing"
+        ],
+        "description": "This controls the number of milliseconds that must pass before a held key sends an initial repeat press to the game.  You might need to adjust this.",
+        "field": "KEY_HOLD_MS",
+        "name": "Key Hold MS",
+        "options": {
+            "type": "num"
+        },
+        "value": "250"
+    },
+    {
+        "categories": [
+            "keys",
+            "timing"
+        ],
+        "description": "This controls the number of milliseconds that must pass before a held key sends a repeat press to the game after the repeat process has begun.",
+        "field": "KEY_REPEAT_MS",
+        "name": "Key Repeat MS",
+        "options": {
+            "type": "num"
+        },
+        "value": "150"
+    },
+    {
+        "categories": [
+            "keys",
+            "timing"
+        ],
+        "description": "If you set KEY_REPEAT_ACCEL_LIMIT above one, then after KEY_REPEAT_ACCEL_START repetitions the repetition delay will smoothly decrease until repetition is this number of times faster than at the start.",
+        "field": "KEY_REPEAT_ACCEL_LIMIT",
+        "name": "Key Repeat Accel Limit",
+        "options": {
+            "type": "num"
+        },
+        "value": "8"
+    },
+    {
+        "categories": [
+            "keys",
+            "timing"
+        ],
+        "description": "If you set KEY_REPEAT_ACCEL_LIMIT above one, then after KEY_REPEAT_ACCEL_START repetitions the repetition delay will smoothly decrease until repetition is this number of times faster than at the start.",
+        "field": "KEY_REPEAT_ACCEL_START",
+        "name": "Key Repeat Accel Start",
+        "options": {
+            "type": "num"
+        },
+        "value": "10"
+    },
+    {
+        "categories": [
+            "timing"
+        ],
+        "description": "This controls the number of milliseconds between macro instructions.",
+        "field": "MACRO_MS",
+        "name": "Macro Delay MS",
+        "options": {
+            "type": "num"
+        },
+        "value": "15"
+    },
+    {
+        "categories": [
+            "timing"
+        ],
+        "description": "This controls the number of milliseconds that must pass before input works again after the view recenters on an event in dwarf mode.",
+        "field": "RECENTER_INTERFACE_SHUTDOWN_MS",
+        "name": "Recenter Interface Shutdown MS",
+        "options": {
+            "type": "num"
+        },
+        "value": "0"
+    },
+    {
+        "categories": [
+            "misc"
+        ],
+        "description": "Change this to NO if you want to leave save uncompressed (you might want to do this if you are experience save corruption).",
+        "field": "COMPRESSED_SAVES",
+        "name": "Compressed Saves",
+        "options": {
+            "options": [
+                "YES",
+                "NO"
+            ],
+            "type": "bool"
+        },
+        "value": "YES"
+    }
+]
