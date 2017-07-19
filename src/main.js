@@ -47,7 +47,7 @@ const log = {
 
 // Constants
 const pathToDF = config.settings.paths.df
-const pathToData = config.settings.paths.data || path.join(app.getPath('appData'), app.getName(), 'data')
+const pathToData = config.settings.paths.data === '' ? path.join(app.getPath('appData'), app.getName(), 'data') : config.settings.paths.data
 
 // "Constants"
 
@@ -552,7 +552,7 @@ function initData () {
 
     // Move default DF font and tilesets to the data folder
 
-  if (pathToDF !== '') {
+  if (pathToDF !== '' && pathToDF !== undefined) {
     fs.find(path.join(pathToDF, 'data', 'art'), {
       matching: '[^.]*.ttf'
     }).forEach(function (font) {
@@ -569,6 +569,7 @@ function initData () {
     fs.copy(defaultTileset, path.join(pathToDF, 'data', 'art', 'tileset.png'))
   } else {
     log.verbose('pathToDF has not yet been defined.')
+    updateLaunchable(false)
   }
 }
 
@@ -871,21 +872,7 @@ function toggleAdvancedMode () {
 
 app.on('ready', function () {
   Menu.setApplicationMenu(Menu.buildFromTemplate(menuPlate))
-  // if (config.startups !== 0) {
-  //   log.verbose('Startups !== 0')
-  //
-  //   updateDataContents()
-  //
-  //   contents = require(path.join(pathToData, 'contents.json'))
-  //   dfConfig = require(path.join(pathToData, 'config.json'))
-  //   dfdConfig = require(path.join(pathToData, 'd_config.json'))
-  //   dfdConfigSupplement = path.join(pathToData, 'dconfigsupplement.txt')
-  //
-  //   createWindow()
-  // } else {
-  //   log.verbose('Startups === 0')
-  //   // newStartupWindow()
-  // }
+
   updateDataContents()
 
   config.settings.paths.config = path.join(__dirname, 'assets', 'config', 'config.json')
