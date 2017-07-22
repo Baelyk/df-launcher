@@ -157,5 +157,6 @@
             "launchable": false
         }
     },
-    "startups": 0
+    "startups": 0,
+    "initDF": true
 }

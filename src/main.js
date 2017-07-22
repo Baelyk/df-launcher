@@ -205,6 +205,14 @@ let menuPlate = [
   }, {
     label: 'Window',
     submenu: [{
+      label: 'Settings',
+      accelerator: 'CommandOrControl+,',
+      click: function () {
+        createPreferencesWindow()
+      }
+    }, {
+      role: 'separator'
+    }, {
       role: 'minimize'
     }, {
       role: 'close'
@@ -341,6 +349,7 @@ function ErrorGUI (message, options = {
   options.message = message
   options.type = 'error'
   // log.debug(options.bWin)
+  log.error('ErrorGUI:' + message + '; ' + options)
   dialog.showMessageBox(options.bWin, options, callback)
 }
 
@@ -430,7 +439,12 @@ function selectFile (event, what) {
 function updateLaunchable (newState) {
   config.settings.df.launchable = newState
   updateConfigs(undefined, 'config', config)
-  mainWindow.webContents.send('launchable', newState)
+  if (mainWindow === undefined) {
+    log.error('In function updateLaunchable (src/main.js) the mainWindow is undefined, preventing the launchable status from being updated.')
+  } else {
+    mainWindow.webContents.send('launchable', newState)
+    log.verbose('Launchable status updated to ' + newState)
+  }
 }
 
 function resetLauncherConfigs () {
@@ -553,24 +567,35 @@ function initData () {
     // Move default DF font and tilesets to the data folder
 
   if (pathToDF !== '' && pathToDF !== undefined) {
-    fs.find(path.join(pathToDF, 'data', 'art'), {
-      matching: '[^.]*.ttf'
-    }).forEach(function (font) {
-      fs.copy(font, path.join(pathToData, 'fonts', path.basename(font)))
-    })
-    fs.find(path.join(pathToDF, 'data', 'art'), {
-      matching: '[^.]@(*.png|*.bmp)'
-    }).forEach(function (tileset) {
-      if (tileset.indexOf('mouse') === -1) fs.copy(tileset, path.join(pathToData, 'tilesets', path.basename(tileset)))
-    })
-    const defaultTileset = fs.find(path.join(pathToDF, 'data', 'art'), {
-      matching: 'curses_800x600.png'
-    })[0]
-    fs.copy(defaultTileset, path.join(pathToDF, 'data', 'art', 'tileset.png'))
+    initDF()
   } else {
     log.verbose('pathToDF has not yet been defined.')
     updateLaunchable(false)
   }
+}
+
+function initDF () {
+  log.verbose('Initializing DF')
+  fs.find(path.join(pathToDF, 'data', 'art'), {
+    matching: '[^.]*.ttf'
+  }).forEach(function (font) {
+    fs.copy(font, path.join(pathToData, 'fonts', path.basename(font)))
+  })
+  fs.find(path.join(pathToDF, 'data', 'art'), {
+    matching: '[^.]@(*.png|*.bmp)'
+  }).forEach(function (tileset) {
+    if (tileset.indexOf('mouse') === -1) fs.copy(tileset, path.join(pathToData, 'tilesets', path.basename(tileset)))
+  })
+  const defaultTileset = fs.find(path.join(pathToDF, 'data', 'art'), {
+    matching: 'curses_800x600.png'
+  })[0]
+  fs.copy(defaultTileset, path.join(pathToDF, 'data', 'art', 'tileset.png'))
+
+  updateDataContents()
+
+  let newConfigs = config
+  newConfigs.initDF = true // update configs to reflect that DF has been initialized.
+  updateConfigs(undefined, 'config', newConfigs)
 }
 
 // Launcher function (index.js)
@@ -586,12 +611,17 @@ function downloadDF (event, what) {
     directory: path.join(pathToData, 'df')
   })
   .then((df) => {
+    log.verbose(df.getSavePath())
     const destination = path.join(pathToData, 'df', `${version}_${Date.now()}`)
     log.verbose('Downloaded df!')
-    decompress(df.getSavePath(), destination, { plugins: [ decompressTarbz2() ] })
+    log.verbose('Extracting to ' + destination)
+    decompress(df.getSavePath(), destination)
     .then(files => {
+      if (files.length === 0) {
+        ErrorGUI('Error downloading DF, files.length is 0.', {bWin: preferencesWindow})
+      }
       log.verbose(`DF decompressed at ${path.join(destination, files[0].path)}!`)
-      /* const pathToDF = */ config.settings.paths.df = path.join(destination, files[0].path)
+      /* const pathToDF = */ config.settings.paths.df = destination
       event.sender.send('download-finished')
       updateLaunchable(true)
       requestRestart('You must restart now restart to use the downloaded version.')
@@ -602,12 +632,13 @@ function downloadDF (event, what) {
 }
 
 function launchDF () {
+  const command = process.platform === 'win32' ? `cd "${path.join(pathToDF)}" && "Dwarf Fortress.exe"` : `"${path.join(pathToDF, 'df')}" ; exit;`
   log.debug('launching df')
   // dfPath = pathToDF.replace(/ /gi, "\\ ")
   // log.debug(dfPath)
-  log.debug(`"${path.join(pathToDF, 'df')}" ; exit;`)
+  log.debug(command)
   if (config.settings.df.launchable) {
-    exec(`"${path.join(pathToDF, 'df')}" ; exit;`, function (error, out, err) {
+    exec(command, function (error, out, err) {
       if (error) {
         log.error(error)
       } else {
@@ -888,6 +919,8 @@ app.on('ready', function () {
   dfConfig = require(config.settings.paths.dfConfig)
   dfdConfig = require(config.settings.paths.dfdConfig)
   dfdConfigSupplement = config.settings.paths.dfdConfigSupplement
+
+  if (pathToDF !== '' && pathToDF !== undefined && !config.initDF) initDF()
 
   createWindow()
 
