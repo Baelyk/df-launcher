@@ -621,7 +621,7 @@ function downloadDF (event, what) {
         ErrorGUI('Error downloading DF, files.length is 0.', {bWin: preferencesWindow})
       }
       log.verbose(`DF decompressed at ${path.join(destination, files[0].path)}!`)
-      /* const pathToDF = */ config.settings.paths.df = destination
+      /* const pathToDF = */ config.settings.paths.df = process.platform === 'darwin' ? path.join(destination, 'df_osx') : destination
       event.sender.send('download-finished')
       updateLaunchable(true)
       requestRestart('You must restart now restart to use the downloaded version.')
@@ -673,8 +673,8 @@ function backupSaves () {
   saveLocation.on('open', function () {
     archive.pipe(saveLocation)
     archive
-            .directory(path.join(pathToDF, 'data', 'save'))
-            .finalize()
+      .directory(path.join(pathToDF, 'data', 'save'))
+      .finalize()
   })
   log.debug('Saves backed up.')
 }
@@ -683,14 +683,16 @@ function restoreSaves (selectedSave) {
   log.debug('Restoring saves...')
   let save
   if (arguments.length > 0 && selectedSave !== '') {
-    save = selectedSave
+    save = selectedSave.substr(-20, 13)
   } else {
     let saves = fs.find(path.join(pathToData, 'saves'), {
       matching: "['1', '2', '3', '4', '5', '6', '7', '8', '9']*.tar.gz"
     })
+    log.verbose(saves)
     saves.forEach(function (e, i) {
       saves[i] = e.substr(-20, 13)
     })
+    log.verbose('...')
     log.verbose(saves)
     save = Math.max(...saves)
   }
@@ -712,7 +714,7 @@ function backupConfigs () {
   log.debug(pathToDF)
   let date = Date.now()
   log.debug(date)
-  let configLocation = fs.createWriteStream(path.join(pathToData, 'config', date + '.tar.gz'))
+  let configLocation = fs.createWriteStream(path.join(pathToData, 'configs', date + '.tar.gz'))
 
   let archive = archiver('tar', {
     gzip: true,
@@ -733,11 +735,11 @@ function backupConfigs () {
   configLocation.on('open', function () {
     archive.pipe(configLocation)
     archive
-            .file(path.join(pathToDF, 'data', 'init', 'init.txt'))
-            .file(path.join(pathToDF, 'data', 'init', 'd_init.txt'))
-            .file(path.join(pathToData, 'config.json'))
-            .file(path.join(pathToData, 'd_config.json'))
-            .finalize()
+      .file(path.join(pathToDF, 'data', 'init', 'init.txt'))
+      .file(path.join(pathToDF, 'data', 'init', 'd_init.txt'))
+      .file(path.join(pathToData, 'config.json'))
+      .file(path.join(pathToData, 'd_config.json'))
+      .finalize()
   })
   log.debug('Configs backed up')
 }
@@ -760,7 +762,7 @@ function restoreConfigs (selectedConfig) {
 
   log.verbose(config)
 
-  decompress(path.join(pathToData, 'config', config + 'tar.gz'), {
+  decompress(path.join(pathToData, 'configs', config + '.tar.gz'), {
     plugins: [
       decompressTargz()
     ]

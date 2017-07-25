@@ -763,7 +763,7 @@ backupSavesbtn.addEventListener('click', function () {
   ipc.send('backup-saves')
 })
 restoreSavesbtn.addEventListener('click', function () {
-  ipc.send('restore-saves')
+  ipc.send('restore-saves', saveSelect.options[saveSelect.selectedIndex].value)
 })
 backupConfigbtn.addEventListener('click', function () {
   ipc.send('backup-config', saveSelect.value)

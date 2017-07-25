@@ -11,6 +11,7 @@
 -   Handle font/tileset/backup names being too long (currently its a mess)
 -   Get rid of the directory selection
 -   Fix font/tileset selection after adding one
+-   Selected save isn't the save used
 
 ## Ideas
 
