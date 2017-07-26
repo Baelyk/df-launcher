@@ -33,6 +33,7 @@ config.settings.paths = {
   data: ''
 }
 config.settings.df.launchable = false
+config.initDF = false
 
 fs.write(pathToConfig, config, {
   jsonIndent: 4

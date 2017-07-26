@@ -158,5 +158,5 @@
         }
     },
     "startups": 0,
-    "initDF": true
+    "initDF": false
 }
