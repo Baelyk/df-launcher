@@ -579,12 +579,12 @@ function initDF () {
   fs.find(path.join(pathToDF, 'data', 'art'), {
     matching: '[^.]*.ttf'
   }).forEach(function (font) {
-    fs.copy(font, path.join(pathToData, 'fonts', path.basename(font)))
+    if (!fs.exists(path.join(pathToData, 'fonts', path.basename(font)))) fs.copy(font, path.join(pathToData, 'fonts', path.basename(font)))
   })
   fs.find(path.join(pathToDF, 'data', 'art'), {
     matching: '[^.]@(*.png|*.bmp)'
   }).forEach(function (tileset) {
-    if (tileset.indexOf('mouse') === -1) fs.copy(tileset, path.join(pathToData, 'tilesets', path.basename(tileset)))
+    if (!fs.exists(path.join(pathToData, 'tilesets', path.basename(tileset))) && tileset.indexOf('mouse') === -1) fs.copy(tileset, path.join(pathToData, 'tilesets', path.basename(tileset)))
   })
   const defaultTileset = fs.find(path.join(pathToDF, 'data', 'art'), {
     matching: 'curses_800x600.png'
@@ -698,6 +698,8 @@ function restoreSaves (selectedSave) {
   }
 
   log.verbose(save)
+
+  //fs.remove(path.join(pathToDF, 'data', 'save'))
 
   decompress(path.join(pathToData, 'saves', save + '.tar.gz'), {
     plugins: [

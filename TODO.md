@@ -12,7 +12,6 @@
 -   Get rid of the directory selection
 -   Fix font/tileset selection after adding one
 -   Selected save isn't the save used
--   Font/tileset loading after downloading DF isn't working
 
 ## Ideas
 
@@ -26,3 +25,4 @@
 -   Use Stylus instead of CSS
 -   Unify CSS (Stylus) to one file?
 -   Prevent modification of settings before download DF
+-   Making backup archive paths relative to DF
